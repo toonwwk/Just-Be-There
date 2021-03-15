@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:jbt/MyBottomNav.dart';
+
 import 'helper.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MyBottomNav());
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,17 +39,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: appTextStyle.semiBold15Orange,),
+        title: Text(
+          widget.title,
+          style: appTextStyle.semiBold15Orange,
+        ),
         backgroundColor: appColor.green,
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Image(image: appAsset.username2, width: 20, height: 20,),
+            Image(
+              image: appAsset.username2,
+              width: 20,
+              height: 20,
+            ),
             Text(
               'You have pushed the button this many times:',
             ),
