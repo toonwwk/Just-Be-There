@@ -16,6 +16,7 @@ extension appTextStyle on TextStyle {
 
   static TextStyle get semiBold15Orange => TextStyle(fontFamily: 'OpenSans', fontWeight: FontWeight.w600, fontSize: 15, color: appColor.orange,);
   static TextStyle get semiBold15Green => TextStyle(fontFamily: 'OpenSans', fontWeight: FontWeight.w600, fontSize: 15, color: appColor.green,);
+  static TextStyle get semiBold15White => TextStyle(fontFamily: 'OpenSans', fontWeight: FontWeight.w600, fontSize: 15, color: Colors.white,);
   static TextStyle get semiBold12Green => TextStyle(fontFamily: 'OpenSans', fontWeight: FontWeight.w600, fontSize: 12, color: appColor.green,);
 
   static TextStyle get regular15Green => TextStyle(fontFamily: 'OpenSans', fontWeight: FontWeight.w400, fontSize: 15, color: appColor.green,);
@@ -36,4 +37,5 @@ extension appAsset on Image {
   static AssetImage get username => AssetImage('assets/icon-username.png');
   static AssetImage get username2 => AssetImage('assets/icon-username2.png');
   static AssetImage get password => AssetImage('assets/icon-password.png');
+  static AssetImage get icon => AssetImage('assets/icon.png');
 }
