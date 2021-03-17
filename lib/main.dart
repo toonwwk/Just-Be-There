@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jbt/LoginPage/Login.dart';
+import 'LogIn/LogInScreen.dart';
 import 'helper.dart';
 
 void main() {
