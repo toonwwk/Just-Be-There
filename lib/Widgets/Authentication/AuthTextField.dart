@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../../helper.dart';
 
-enum LogInTextFieldType {
+enum TextFieldType {
   username,
   password,
 }
 
-class LogInTextField extends StatelessWidget {
-  final LogInTextFieldType _type;
+class AuthTextField extends StatelessWidget {
+  final TextFieldType _type;
+  final Color _borderColor;
   IconData get icon {
-    return _type == LogInTextFieldType.username
-        ? Icons.account_circle
-        : Icons.lock;
+    return _type == TextFieldType.username ? Icons.account_circle : Icons.lock;
   }
 
   String get placeHolder {
@@ -23,26 +22,23 @@ class LogInTextField extends StatelessWidget {
     return OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
       borderSide: BorderSide(
-        color: appColor.green,
+        color: _borderColor,
       ),
     );
   }
 
-  LogInTextField(this._type);
+  AuthTextField(this._type, this._borderColor);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
+      width: double.infinity,
       height: 40,
-      margin: EdgeInsets.only(
-        top: 15,
-        left: 20,
-        right: 20,
-      ),
       child: TextField(
         keyboardType: TextInputType.name,
         style: appTextStyle.regular15Green,
         cursorColor: appColor.green,
+        cursorWidth: 1,
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,
@@ -51,7 +47,7 @@ class LogInTextField extends StatelessWidget {
           enabledBorder: border,
           focusedBorder: border,
           hintText: placeHolder,
-          hintStyle: appTextStyle.regular15Green,
+          hintStyle: appTextStyle.regular15Gray,
           contentPadding: EdgeInsets.all(3),
         ),
       ),
