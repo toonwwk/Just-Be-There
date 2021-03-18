@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import '../../helper.dart';
 
 enum TextFieldType {
-  username,
+  email,
   password,
 }
 
 class AuthTextField extends StatelessWidget {
   final TextFieldType _type;
-  final Color _borderColor;
+  final Color _color;
   IconData get icon {
-    return _type == TextFieldType.username ? Icons.account_circle : Icons.lock;
+    return _type == TextFieldType.email ? Icons.account_circle : Icons.lock;
   }
 
   String get placeHolder {
@@ -22,12 +22,12 @@ class AuthTextField extends StatelessWidget {
     return OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
       borderSide: BorderSide(
-        color: _borderColor,
+        color: _color,
       ),
     );
   }
 
-  AuthTextField(this._type, this._borderColor);
+  AuthTextField(this._type, this._color);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class AuthTextField extends StatelessWidget {
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,
-            color: appColor.green,
+            color: _color,
           ),
           enabledBorder: border,
           focusedBorder: border,

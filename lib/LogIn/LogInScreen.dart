@@ -6,17 +6,18 @@ import 'package:jbt/helper.dart';
 import 'package:jbt/Widgets/Authentication/SignUpText.dart';
 import 'package:jbt/SignUp/SignUpScreen.dart';
 
-class Login extends StatefulWidget {
+class LoginScreen extends StatefulWidget {
   @override
-  LoginState createState() => LoginState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class LoginState extends State<Login> {
+class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
         child: ConstrainedBox(
           constraints: BoxConstraints(
             minWidth: MediaQuery.of(context).size.width,
@@ -29,7 +30,7 @@ class LoginState extends State<Login> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(height: size.height * .12),
+                SizedBox(height: deviceSize.height * .1),
                 Image(
                   image: appAsset.icon,
                   width: 190,
@@ -46,7 +47,7 @@ class LoginState extends State<Login> {
                   height: 50,
                 ),
                 AuthTextField(
-                  TextFieldType.username,
+                  TextFieldType.email,
                   appColor.green,
                 ),
                 SizedBox(
