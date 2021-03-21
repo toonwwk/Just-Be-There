@@ -10,6 +10,7 @@ enum TextFieldType {
 class AuthTextField extends StatelessWidget {
   final TextFieldType _type;
   final Color _color;
+  final TextEditingController _controller;
   IconData get icon {
     return _type == TextFieldType.email ? Icons.account_circle : Icons.lock;
   }
@@ -27,7 +28,7 @@ class AuthTextField extends StatelessWidget {
     );
   }
 
-  AuthTextField(this._type, this._color);
+  AuthTextField(this._type, this._color, this._controller);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,8 @@ class AuthTextField extends StatelessWidget {
       width: double.infinity,
       height: 40,
       child: TextField(
-        keyboardType: TextInputType.name,
+        keyboardType: TextInputType.emailAddress,
+        controller: _controller,
         style: appTextStyle.regular15Green,
         cursorColor: appColor.green,
         cursorWidth: 1,

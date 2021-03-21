@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jbt/Widgets/Authentication/AuthTextField.dart';
-import 'package:jbt/Widgets/Authentication/RoundButton.dart';
+import 'package:jbt/Widgets/Authentication/AuthButton.dart';
 import 'package:jbt/helper.dart';
 
 class SignUpScreen extends StatelessWidget {
+  static const routeName = '/signup';
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
+
   final AppBar appBar = AppBar(
     iconTheme: IconThemeData(
       color: appColor.green, //change your color here
@@ -16,6 +20,8 @@ class SignUpScreen extends StatelessWidget {
       style: appTextStyle.bold18Green,
     ),
   );
+
+  Function(void) didTapSignUpButton() {}
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +62,7 @@ class SignUpScreen extends StatelessWidget {
                 AuthTextField(
                   TextFieldType.email,
                   appColor.darkGray,
+                  emailController,
                 ),
                 SizedBox(
                   height: 15,
@@ -63,12 +70,14 @@ class SignUpScreen extends StatelessWidget {
                 AuthTextField(
                   TextFieldType.password,
                   appColor.darkGray,
+                  passwordController,
                 ),
                 SizedBox(
                   height: 15,
                 ),
-                RoundButton(
-                  "Sign Up",
+                AuthButton(
+                  AuthButtonType.signUp,
+                  didTapSignUpButton,
                 ),
               ],
             ),

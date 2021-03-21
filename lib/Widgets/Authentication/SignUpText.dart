@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:jbt/SignUp/SignUpScreen.dart';
 import 'package:jbt/helper.dart';
 
 class SignUpText extends StatelessWidget {
@@ -16,9 +17,14 @@ class SignUpText extends StatelessWidget {
             'Do not have an account? ',
             style: appTextStyle.regular15Green,
           ),
-          GestureDetector(
+          InkWell(
             onTap: () {
-              log("Sign up");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SignUpScreen(),
+                ),
+              );
             },
             child: Text(
               'Sign Up',
