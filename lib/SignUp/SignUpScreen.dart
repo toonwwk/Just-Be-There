@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jbt/Service/FirebaseService.dart';
 import 'package:jbt/Widgets/Authentication/AuthTextField.dart';
 import 'package:jbt/Widgets/Authentication/AuthButton.dart';
 import 'package:jbt/helper.dart';
@@ -8,6 +9,7 @@ class SignUpScreen extends StatelessWidget {
   static const routeName = '/signup';
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
+  final FirebaseService _service = FirebaseService();
 
   final AppBar appBar = AppBar(
     iconTheme: IconThemeData(
@@ -21,7 +23,21 @@ class SignUpScreen extends StatelessWidget {
     ),
   );
 
-  Function(void) didTapSignUpButton() {}
+  void didTapSignUpButton() async {
+    await _service
+        .createUser(
+      email: emailController.text,
+      password: passwordController.text,
+    )
+        .then((errorCode) {
+      if (errorCode.isNotEmpty) {
+        // NOTE: Show popup here
+        print("error " + errorCode);
+      } else {
+        print("sign up success");
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

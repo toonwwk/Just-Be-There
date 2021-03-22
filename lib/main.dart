@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jbt/SignUp/SignUpScreen.dart';
-import 'package:provider/provider.dart';
 import 'LogIn/LogInScreen.dart';
-import 'Providers/Authen.dart';
 import 'dummy.dart';
 import 'helper.dart';
 
