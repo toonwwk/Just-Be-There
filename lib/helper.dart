@@ -110,6 +110,8 @@ extension appAsset on Image {
   static AssetImage get username2 => AssetImage('assets/icon-username2.png');
   static AssetImage get password => AssetImage('assets/icon-password.png');
   static AssetImage get icon => AssetImage('assets/icon.png');
+  static AssetImage get imagePicker =>
+      AssetImage('assets/button-image-picker.png');
 }
 
 class UserPref {

@@ -13,7 +13,7 @@ class SignUpScreen extends StatelessWidget {
 
   final AppBar appBar = AppBar(
     iconTheme: IconThemeData(
-      color: appColor.green, //change your color here
+      color: appColor.green,
     ),
     centerTitle: true,
     backgroundColor: Colors.white,
