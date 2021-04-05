@@ -11,8 +11,14 @@ class _MapPageState extends State<MapPage> {
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
-      _markers.add(Marker(
-          markerId: MarkerId("id-1"), position: LatLng(13.756331, 100.501762)));
+      _markers.add(
+        Marker(
+          markerId: MarkerId("id-1"),
+          position: LatLng(13.756331, 100.501762),
+          infoWindow: InfoWindow(
+              title: 'Cartoon Home', snippet: 'This is where Cartoon live'),
+        ),
+      );
     });
   }
 
@@ -23,12 +29,13 @@ class _MapPageState extends State<MapPage> {
           title: new Text("GoogleMaps"),
         ),
         body: GoogleMap(
-            onMapCreated: _onMapCreated,
-            markers: _markers,
-            initialCameraPosition: CameraPosition(
-              target: LatLng(13.756331, 100.501762),
-              zoom: 15,
-            )));
+          onMapCreated: _onMapCreated,
+          markers: _markers,
+          initialCameraPosition: CameraPosition(
+            target: LatLng(13.756331, 100.501762),
+            zoom: 15,
+          ),
+        ));
   }
 }
 
