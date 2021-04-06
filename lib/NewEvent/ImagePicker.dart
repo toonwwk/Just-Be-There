@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
+import '../helper.dart';
+
 class ImagePicker extends StatefulWidget {
   @override
   _ImagePicker createState() => _ImagePicker();
@@ -10,23 +12,45 @@ class ImagePicker extends StatefulWidget {
 class _ImagePicker extends State<ImagePicker> {
   List<Asset> images = <Asset>[];
 
+  Widget blankImage() {
+    return InkWell(
+      onTap: loadAssets,
+      child: Container(
+        padding: EdgeInsets.all(5.0),
+        child: Image(
+          image: appAsset.imagePicker,
+          height: 140,
+          width: 140,
+        ),
+      ),
+    );
+  }
+
+  Widget selectedImage(Asset asset) {
+    return Container(
+      padding: EdgeInsets.all(5.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: AssetThumb(
+          asset: asset,
+          width: 140,
+          height: 140,
+        ),
+      ),
+    );
+  }
+
   Widget buildHorizontalImageListView() {
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      itemCount: images.length,
+      itemCount: images.length + 1,
       itemBuilder: (context, i) {
-        Asset asset = images[i];
-        return Container(
-          padding: EdgeInsets.all(10.0),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: AssetThumb(
-              asset: asset,
-              width: 180,
-              height: 180,
-            ),
-          ),
-        );
+        try {
+          Asset asset = images[i];
+          return selectedImage(asset);
+        } catch (error) {
+          return blankImage();
+        }
       },
     );
   }
@@ -45,7 +69,7 @@ class _ImagePicker extends State<ImagePicker> {
           actionBarTitle: "JBT",
           allViewTitle: "All Photos",
           useDetailsView: false,
-          selectCircleStrokeColor: "#000000",
+          selectCircleStrokeColor: "#FF314E52",
         ),
       );
     } on Exception catch (e) {
@@ -62,25 +86,39 @@ class _ImagePicker extends State<ImagePicker> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 260,
+      height: 233,
+      width: double.infinity,
+      color: appColor.yellow,
       child: Column(
         children: [
           SizedBox(
             height: 20,
           ),
           Container(
-            height: 200,
-            child: buildHorizontalImageListView(),
+            height: 150,
+            child: images.length == 0
+                ? blankImage()
+                : buildHorizontalImageListView(),
           ),
           SizedBox(
-            height: 20,
+            height: 5,
           ),
-          ElevatedButton(
-            onPressed: loadAssets,
-            child: Text("Add images"),
+          ButtonTheme(
+            minWidth: 100,
+            height: 20,
+            child: ElevatedButton(
+              onPressed: loadAssets,
+              style: ElevatedButton.styleFrom(
+                primary: appColor.orange,
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(10.0),
+                ),
+              ),
+              child: Text("Add images", style: appTextStyle.semiBold15White),
+            ),
           ),
           SizedBox(
-            height: 20,
+            height: 10,
           ),
         ],
       ),

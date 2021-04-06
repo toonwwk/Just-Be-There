@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jbt/Service/FirebaseService.dart';
-import 'package:jbt/Widgets/Authentication/AuthTextField.dart';
-import 'package:jbt/Widgets/Authentication/AuthButton.dart';
+import 'package:jbt/Widgets/LeftIconTextField.dart';
+import 'package:jbt/Widgets/RoundButton.dart';
 import 'package:jbt/helper.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -75,23 +75,25 @@ class SignUpScreen extends StatelessWidget {
                 SizedBox(
                   height: 50,
                 ),
-                AuthTextField(
+                LeftIconTextField(
                   TextFieldType.email,
-                  appColor.darkGray,
+                  appColor.green,
+                  appColor.green,
                   emailController,
                 ),
                 SizedBox(
                   height: 15,
                 ),
-                AuthTextField(
+                LeftIconTextField(
                   TextFieldType.password,
-                  appColor.darkGray,
+                  appColor.green,
+                  appColor.green,
                   passwordController,
                 ),
                 SizedBox(
                   height: 15,
                 ),
-                AuthButton(
+                RoundButton(
                   AuthButtonType.signUp,
                   didTapSignUpButton,
                 ),
