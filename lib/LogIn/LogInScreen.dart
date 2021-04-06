@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:jbt/Service/FirebaseService.dart';
 import 'package:jbt/Widgets/Authentication/AuthTextField.dart';
 import 'package:jbt/Widgets/Authentication/AuthButton.dart';
+import 'package:jbt/Widgets/Authentication/ErrorPopup.dart';
 import 'package:jbt/helper.dart';
 import 'package:jbt/Widgets/Authentication/SignUpText.dart';
 
@@ -21,6 +22,16 @@ class LogInScreen extends StatelessWidget {
         .then((errorCode) {
       if (errorCode.isNotEmpty) {
         // NOTE: Show popup here
+        // ErrorPopup(
+        //   errorCode,
+        // );
+        if(emailController.text.isEmpty){
+          ErrorPopup('ERROR_INVALID_EMAIL');
+        }
+        if(passwordController.text != 0){
+          ErrorPopup('ERROR_WRONG_PASSWORD');
+        }
+
         print("error " + errorCode);
       } else {
         print("login success");

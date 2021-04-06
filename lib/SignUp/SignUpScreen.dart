@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:jbt/Service/FirebaseService.dart';
 import 'package:jbt/Widgets/Authentication/AuthTextField.dart';
 import 'package:jbt/Widgets/Authentication/AuthButton.dart';
+import 'package:jbt/Widgets/Authentication/ErrorPopup.dart';
 import 'package:jbt/helper.dart';
+import 'package:jbt/Widgets/province.dart';
 
 class SignUpScreen extends StatelessWidget {
   static const routeName = '/signup';
@@ -32,6 +34,13 @@ class SignUpScreen extends StatelessWidget {
         .then((errorCode) {
       if (errorCode.isNotEmpty) {
         // NOTE: Show popup here
+        if(passwordController.text.length < 8){
+          ErrorPopup('ERROR_WEAK_PASSWORD');
+        }
+        else if(emailController.text.isEmpty || emailController.text == null){
+          ErrorPopup('ERROR_INVALID_EMAIL');
+        }
+
         print("error " + errorCode);
       } else {
         print("sign up success");
@@ -87,6 +96,12 @@ class SignUpScreen extends StatelessWidget {
                   TextFieldType.password,
                   appColor.darkGray,
                   passwordController,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                province(
+                  appColor.darkGray,
                 ),
                 SizedBox(
                   height: 15,
