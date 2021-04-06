@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "40548862880",
+    "project_id": "just-be-there",
+    "storage_bucket": "just-be-there.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40548862880:android:9d43d7175d5d49a60972c5",
+        "android_client_info": {
+          "package_name": "com.example.jbt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "40548862880-qk1mo326vot04ukold1os5d3r4pjbpc8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCV__xVTQnK-cqeSbSi-8Y8D1WhAaOYCGA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "40548862880-qk1mo326vot04ukold1os5d3r4pjbpc8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "40548862880-nl9177p7q3534vnl1l3d5l59073ge3if.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.jbt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,31 +1,40 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:jbt/SignUp/SignUpScreen.dart';
-import 'LogIn/LogInScreen.dart';
-import 'dummy.dart';
-import 'helper.dart';
 
-void main() {
+import 'LogIn/LogInScreen.dart';
+import 'NewEvent/NewEventScreen.dart';
+import 'dummy.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'JBT',
+    return FutureBuilder(
+      future: Firebase.initializeApp(),
+      builder: (context, snapshot) {
+        return MaterialApp(
+          title: 'JBT',
+          // home: LogInScreen(),
+          initialRoute: LogInScreen.routeName,
 
-      // home: LogInScreen(),
-      initialRoute: LogInScreen.routeName,
+          routes: {
+            LogInScreen.routeName: (ctx) => LogInScreen(),
+            SignUpScreen.routeName: (ctx) => SignUpScreen(),
+            MapController.routeName: (ctx) => MapController(),
+            NewEventScreen.routeName: (ctx) => NewEventScreen(),
+          },
 
-      routes: {
-        LogInScreen.routeName: (ctx) => LogInScreen(),
-        SignUpScreen.routeName: (ctx) => SignUpScreen(),
-        MapController.routeName: (ctx) => MapController(),
-      },
-
-      onUnknownRoute: (settings) {
-        return MaterialPageRoute(
-          builder: (ctx) => LogInScreen(),
+          onUnknownRoute: (settings) {
+            return MaterialPageRoute(
+              builder: (ctx) => LogInScreen(),
+            );
+          },
         );
       },
     );

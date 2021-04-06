@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:recase/recase.dart';
-import '../../helper.dart';
+import '../helper.dart';
 
 enum AuthButtonType {
   logIn,
   signUp,
 }
 
-class AuthButton extends StatelessWidget {
+class RoundButton extends StatelessWidget {
   final AuthButtonType _type;
   final Function _didTap;
 
@@ -18,12 +18,12 @@ class AuthButton extends StatelessWidget {
     return rc.titleCase;
   }
 
-  AuthButton(this._type, this._didTap);
+  RoundButton(this._type, this._didTap);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity - 40,
+    return ButtonTheme(
+      minWidth: double.infinity - 40,
       height: 40,
       child: ElevatedButton(
         onPressed: () => _didTap(),

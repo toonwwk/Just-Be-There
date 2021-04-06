@@ -41,7 +41,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    
+    <key>NSCameraUsageDescription</key>
+    <string>JBT wants to access your camera</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>JBT Travel to access your photos</string>
     <!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
     <!-- Google Sign-in Section -->
     <key>CFBundleURLTypes</key>
