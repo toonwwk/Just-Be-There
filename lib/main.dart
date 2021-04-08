@@ -5,6 +5,7 @@ import 'package:jbt/SignUp/SignUpScreen.dart';
 import 'LogIn/LogInScreen.dart';
 import 'NewEvent/NewEventScreen.dart';
 import 'dummy.dart';
+import 'package:jbt/helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,9 @@ class MyApp extends StatelessWidget {
       future: Firebase.initializeApp(),
       builder: (context, snapshot) {
         return MaterialApp(
+          theme: new ThemeData(
+              primaryColor: appColor.green,
+          ),
           title: 'JBT',
           // home: LogInScreen(),
           initialRoute: LogInScreen.routeName,

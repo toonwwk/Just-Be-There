@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jbt/Widgets/LeftIconTextField.dart';
+import 'package:jbt/Widgets/Daterange.dart';
 
 import '../helper.dart';
 import 'ImagePicker.dart';
@@ -9,6 +10,8 @@ class NewEventScreen extends StatelessWidget {
 
   final TextEditingController detailController = new TextEditingController();
   final TextEditingController telController = new TextEditingController();
+  final TextEditingController locationController = new TextEditingController();
+  final TextEditingController dateController = new TextEditingController();
 
   final AppBar appBar = AppBar(
     iconTheme: IconThemeData(
@@ -24,19 +27,30 @@ class NewEventScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: appColor.lightGray,
-        ),
-        centerTitle: true,
-        backgroundColor: appColor.green,
-        title: Text(
-          "New Event",
-          style: appTextStyle.bold18Gray,
-        ),
-      ),
-      body: Column(
+      // appBar: AppBar(
+      //   iconTheme: IconThemeData(
+      //     color: appColor.lightGray,
+      //   ),
+      //   centerTitle: true,
+      //   backgroundColor: appColor.green,
+      //   title: Text(
+      //     "New Event",
+      //     style: appTextStyle.bold18Gray,
+      //   ),
+      // ),
+      appBar: appBar,
+        body: SingleChildScrollView(
+          //enable or unable scroll
+        //physics: const NeverScrollableScrollPhysics(),
+        child: ConstrainedBox(
+        constraints: BoxConstraints(
+        minWidth: MediaQuery.of(context).size.width,
+        minHeight: MediaQuery.of(context).size.height,
+       ),
+
+      child: Column(
         children: [
           ImagePicker(),
           Padding(
@@ -45,13 +59,22 @@ class NewEventScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 LeftIconTextField(
+                  TextFieldType.location,
+                  appColor.darkGray,
+                  appColor.green,
+                  locationController,
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                LeftIconTextField(
                   TextFieldType.detail,
                   appColor.darkGray,
                   appColor.green,
                   detailController,
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 LeftIconTextField(
                   TextFieldType.tel,
@@ -59,11 +82,17 @@ class NewEventScreen extends StatelessWidget {
                   appColor.green,
                   telController,
                 ),
+                SizedBox(
+                  height: 15,
+                ),
+                DateRange(),
               ],
             ),
           ),
         ],
       ),
+         ),
+        ),
     );
   }
 }

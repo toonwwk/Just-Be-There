@@ -136,7 +136,7 @@ class provinceState extends State<province> {
 
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           border: Border.all(
-               color: appColor.darkGray,
+               color: appColor.green,
           ),
 
         ),
@@ -145,7 +145,7 @@ class provinceState extends State<province> {
           child: DropdownButton(
             iconDisabledColor: appColor.darkGray,
             iconEnabledColor: appColor.darkGray,
-            style: appTextStyle.regular15Gray,
+            style: appTextStyle.regular15Green,
             value: selectedItem,
             items: dropdownMenuItems,
             onChanged: (value){

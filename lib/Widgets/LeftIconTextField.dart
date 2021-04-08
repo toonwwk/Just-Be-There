@@ -6,6 +6,8 @@ enum TextFieldType {
   password,
   detail,
   tel,
+  location,
+  date,
 }
 
 class LeftIconTextField extends StatelessWidget {
@@ -16,6 +18,9 @@ class LeftIconTextField extends StatelessWidget {
   TextInputType _keyboardType;
   int _maxLines;
   IconData _icon;
+  bool _enabled = false;
+
+
 
   String get placeHolder {
     return _type.toString().substring(_type.toString().indexOf('.') + 1);
@@ -47,6 +52,7 @@ class LeftIconTextField extends StatelessWidget {
         cursorWidth: 1,
         enableSuggestions: false,
         autocorrect: false,
+        readOnly: _enabled,
         maxLines: _maxLines,
         decoration: InputDecoration(
           prefixIcon: Icon(
@@ -93,6 +99,20 @@ class LeftIconTextField extends StatelessWidget {
           _icon = Icons.local_phone;
           _maxLines = 1;
           _keyboardType = TextInputType.phone;
+        }
+        break;
+      case TextFieldType.date:
+        {
+          _icon = Icons.date_range;
+          _maxLines = 1;
+        }
+        break;
+      case TextFieldType.location:
+        {
+
+          _icon = Icons.location_on;
+          _maxLines = 1;
+          _enabled = true;
         }
         break;
     }
