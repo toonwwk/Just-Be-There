@@ -22,6 +22,8 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           theme: new ThemeData(
               primaryColor: appColor.green,
+              primarySwatch: Colors.teal,
+
           ),
           title: 'JBT',
           // home: LogInScreen(),
