@@ -7,11 +7,22 @@ import 'package:jbt/Widgets/RoundButton.dart';
 import 'package:jbt/helper.dart';
 import 'package:jbt/Widgets/province.dart';
 
-class SignUpScreen extends StatelessWidget {
+class UserSignUpScreen extends StatefulWidget {
+  final bool needPop;
+
+  UserSignUpScreen({this.needPop});
+
+  @override
+  SignUpScreen createState() => SignUpScreen();
+}
+
+
+class SignUpScreen extends State<UserSignUpScreen> {
   static const routeName = '/signup';
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
   final FirebaseService _service = FirebaseService();
+  String errorMsg;
 
   final AppBar appBar = AppBar(
     iconTheme: IconThemeData(
@@ -34,13 +45,8 @@ class SignUpScreen extends StatelessWidget {
         .then((errorCode) {
       if (errorCode.isNotEmpty) {
         // NOTE: Show popup here
-        if (passwordController.text.length < 8) {
-          ErrorPopup('ERROR_WEAK_PASSWORD');
-        } else if (emailController.text.isEmpty ||
-            emailController.text == null) {
-          ErrorPopup('ERROR_INVALID_EMAIL');
-        }
-
+        errorMsg = errorCode;
+        _showAlertDialog(errorMsg);
         print("error " + errorCode);
       } else {
         print("sign up success");
@@ -118,5 +124,20 @@ class SignUpScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+  _showAlertDialog(errorMsg) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'Login Failed',
+              style: appTextStyle.regular15Green,
+            ),
+            content: Text(errorMsg!=null?errorMsg:'dummy'),
+          );
+        }
+    );
+
   }
 }

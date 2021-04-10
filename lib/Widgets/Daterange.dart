@@ -14,7 +14,7 @@ class _DateRangeState extends State<DateRange> {
     if (dateRange == null) {
       return 'From';
     } else {
-      return DateFormat('dd/MM/yyyy').format(dateRange.start);
+      return DateFormat('MM/dd/yyyy').format(dateRange.start);
     }
   }
 
@@ -22,7 +22,7 @@ class _DateRangeState extends State<DateRange> {
     if (dateRange == null) {
       return 'Until';
     } else {
-      return DateFormat('dd/MM/yyyy').format(dateRange.end);
+      return DateFormat('MM/dd/yyyy').format(dateRange.end);
     }
   }
   OutlineInputBorder get border {
@@ -53,13 +53,16 @@ class _DateRangeState extends State<DateRange> {
                 ),
               ),
             onTap: () => pickDateRange(context),
-        ),
+            ),
+
     );
   }
 
   Future pickDateRange(BuildContext context) async {
 
+
     final initialDateRange = DateTimeRange(
+
       start: DateTime.now(),
       end: DateTime.now().add(Duration(hours: 24 * 3)),
     );

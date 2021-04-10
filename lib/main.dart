@@ -14,6 +14,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -23,22 +24,22 @@ class MyApp extends StatelessWidget {
           theme: new ThemeData(
               primaryColor: appColor.green,
               primarySwatch: Colors.teal,
-
           ),
           title: 'JBT',
           // home: LogInScreen(),
           initialRoute: LogInScreen.routeName,
 
+
           routes: {
-            LogInScreen.routeName: (ctx) => LogInScreen(),
-            SignUpScreen.routeName: (ctx) => SignUpScreen(),
+            LogInScreen.routeName: (ctx) => UserLoginScreen(),
+            SignUpScreen.routeName: (ctx) => UserSignUpScreen(),
             MapController.routeName: (ctx) => MapController(),
             NewEventScreen.routeName: (ctx) => NewEventScreen(),
           },
 
           onUnknownRoute: (settings) {
             return MaterialPageRoute(
-              builder: (ctx) => LogInScreen(),
+              builder: (ctx) => UserLoginScreen(),
             );
           },
         );

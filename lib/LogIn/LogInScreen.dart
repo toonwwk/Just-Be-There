@@ -7,44 +7,48 @@ import 'package:jbt/Widgets/RoundButton.dart';
 import 'package:jbt/Widgets/LeftIconTextField.dart';
 import 'package:jbt/helper.dart';
 import 'package:jbt/Widgets/SignUpText.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
-class LogInScreen extends StatelessWidget {
+class UserLoginScreen extends StatefulWidget {
+  final bool needPop;
+
+  UserLoginScreen({this.needPop});
+
+  @override
+  LogInScreen createState() => LogInScreen();
+}
+
+class LogInScreen extends State<UserLoginScreen> {
   static const routeName = '/login';
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
   final FirebaseService _service = FirebaseService();
+  String errorMsg;
 
   void didTapLogInButton() async {
     await _service
         .signIn(
+
       email: emailController.text,
       password: passwordController.text,
+
     )
         .then((errorCode) {
-      // if (errorCode.isNotEmpty) {
-      //   // NOTE: Show popup here
-      //   // ErrorPopup(
-      //   //   errorCode,
-      //   // );
-      //   if (emailController.text.isEmpty) {
-      //     ErrorPopup('ERROR_INVALID_EMAIL');
-      //   }
-      //   if (passwordController.text.isEmpty) {
-      //     ErrorPopup('ERROR_WRONG_PASSWORD');
-      //   }
-
-      //   print("error " + errorCode);
-      // } else {
-      //   print("login success");
-      // }
+      if (errorCode.isNotEmpty) {
+        errorMsg = errorCode;
+        _showAlertDialog(errorMsg);
+        print("error " + errorCode);
+    } else {
+    print("sign up success");
+    }
     });
+
   }
 
   void pushNewEventScreen(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => NewEventScreen(),
+      MaterialPageRoute(builder: (context) => NewEventScreen(),
       ),
     );
   }
@@ -123,4 +127,21 @@ class LogInScreen extends StatelessWidget {
       ),
     );
   }
+
+  _showAlertDialog(errorMsg) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(
+              'Login Failed',
+              style: appTextStyle.regular15Green,
+            ),
+            content: Text(errorMsg!=null?errorMsg:'dummy'),
+          );
+        }
+        );
+
+  }
+
 }

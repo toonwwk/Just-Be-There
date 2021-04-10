@@ -22,7 +22,7 @@ class SignUpText extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SignUpScreen(),
+                  builder: (context) => UserSignUpScreen(),
                 ),
               );
             },
