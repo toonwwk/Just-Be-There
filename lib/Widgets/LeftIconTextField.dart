@@ -20,8 +20,6 @@ class LeftIconTextField extends StatelessWidget {
   IconData _icon;
   bool _enabled = false;
 
-
-
   String get placeHolder {
     return _type.toString().substring(_type.toString().indexOf('.') + 1);
   }
@@ -44,6 +42,12 @@ class LeftIconTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: TextField(
+        onChanged: (String value) async {
+          if (value.length == 3) {
+            value = value + "-";
+            return;
+          }
+        },
         keyboardType: _keyboardType,
         obscureText: _type == TextFieldType.password ? true : false,
         controller: _controller,
@@ -109,7 +113,6 @@ class LeftIconTextField extends StatelessWidget {
         break;
       case TextFieldType.location:
         {
-
           _icon = Icons.location_on;
           _maxLines = 1;
           _enabled = true;

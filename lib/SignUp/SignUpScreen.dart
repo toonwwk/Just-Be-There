@@ -16,7 +16,6 @@ class UserSignUpScreen extends StatefulWidget {
   SignUpScreen createState() => SignUpScreen();
 }
 
-
 class SignUpScreen extends State<UserSignUpScreen> {
   static const routeName = '/signup';
   final TextEditingController emailController = new TextEditingController();
@@ -45,10 +44,12 @@ class SignUpScreen extends State<UserSignUpScreen> {
     )
         .then((errorCode) {
       if (errorCode.isNotEmpty) {
-        // NOTE: Show popup here
-        errorMsg = errorCode;
-        error = errorState.generateExceptionMessage(errorCode);
-        _showAlertDialog(errorMsg);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ErrorPopup(errorCode);
+          },
+        );
         print("error " + errorCode);
       } else {
         print("sign up success");
@@ -126,21 +127,5 @@ class SignUpScreen extends State<UserSignUpScreen> {
         ),
       ),
     );
-  }
-  _showAlertDialog(errorMsg) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              (errorMsg!=null?errorMsg:'dummy'),
-              style: appTextStyle.regular15Green,
-            ),
-            content: Text((error!=null?error:'dummy'),
-          style: appTextStyle.regular15Green,)
-          );
-        }
-    );
-
   }
 }

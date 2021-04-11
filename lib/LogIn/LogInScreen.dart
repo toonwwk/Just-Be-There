@@ -7,7 +7,6 @@ import 'package:jbt/Widgets/RoundButton.dart';
 import 'package:jbt/Widgets/LeftIconTextField.dart';
 import 'package:jbt/helper.dart';
 import 'package:jbt/Widgets/SignUpText.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class UserLoginScreen extends StatefulWidget {
   final bool needPop;
@@ -29,28 +28,29 @@ class LogInScreen extends State<UserLoginScreen> {
   void didTapLogInButton() async {
     await _service
         .signIn(
-
       email: emailController.text,
       password: passwordController.text,
-
     )
         .then((errorCode) {
       if (errorCode.isNotEmpty) {
-        errorMsg = errorCode;
-        error = errorState.generateExceptionMessage(errorCode);
-        _showAlertDialog(errorMsg);
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ErrorPopup(errorCode);
+          },
+        );
         print("error " + errorCode);
-    } else {
-    print("sign up success");
-    }
+      } else {
+        print("sign up success");
+      }
     });
-
   }
 
   void pushNewEventScreen(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => NewEventScreen(),
+      MaterialPageRoute(
+        builder: (context) => NewEventScreen(),
       ),
     );
   }
@@ -129,22 +129,4 @@ class LogInScreen extends State<UserLoginScreen> {
       ),
     );
   }
-
-  _showAlertDialog(errorMsg) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(
-              (errorMsg!=null?errorMsg:'dummy'),
-              style: appTextStyle.regular15Green,
-            ),
-            content: Text((error!=null?error:'dummy'),
-            style: appTextStyle.regular15Green,)
-          );
-        }
-        );
-
-  }
-
 }

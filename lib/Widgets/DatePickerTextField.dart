@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:jbt/helper.dart';
 
-class DateRange extends StatefulWidget {
+class DatePickerTextField extends StatefulWidget {
   @override
-  _DateRangeState createState() => _DateRangeState();
+  _DatePickerTextFieldState createState() => _DatePickerTextFieldState();
 }
 
-class _DateRangeState extends State<DateRange> {
+class _DatePickerTextFieldState extends State<DatePickerTextField> {
   DateTimeRange dateRange;
 
   String getStart() {
@@ -25,6 +25,7 @@ class _DateRangeState extends State<DateRange> {
       return DateFormat('MM/dd/yyyy').format(dateRange.end);
     }
   }
+
   OutlineInputBorder get border {
     return OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -37,32 +38,28 @@ class _DateRangeState extends State<DateRange> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        child: TextField(
-              readOnly: true,
-              decoration: InputDecoration(
-              prefixIcon: Icon(
-                Icons.date_range,
-                color: appColor.green,
-                ),
-                enabledBorder: border,
-                focusedBorder: border,
-                hintText: (getStart() + " - " + getTill()),
-                hintStyle: appTextStyle.regular15Green,
-                contentPadding: EdgeInsets.symmetric(
-                  vertical: 3,
-                ),
-              ),
-            onTap: () => pickDateRange(context),
-            ),
-
+      child: TextField(
+        readOnly: true,
+        decoration: InputDecoration(
+          prefixIcon: Icon(
+            Icons.date_range,
+            color: appColor.green,
+          ),
+          enabledBorder: border,
+          focusedBorder: border,
+          hintText: (getStart() + " - " + getTill()),
+          hintStyle: appTextStyle.regular15Green,
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 3,
+          ),
+        ),
+        onTap: () => pickDateRange(context),
+      ),
     );
   }
 
   Future pickDateRange(BuildContext context) async {
-
-
     final initialDateRange = DateTimeRange(
-
       start: DateTime.now(),
       end: DateTime.now().add(Duration(hours: 24 * 3)),
     );

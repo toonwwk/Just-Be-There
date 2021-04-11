@@ -14,7 +14,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -22,13 +21,12 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         return MaterialApp(
           theme: new ThemeData(
-              primaryColor: appColor.green,
-              primarySwatch: Colors.teal,
+            primaryColor: appColor.green,
+            primarySwatch: Colors.teal,
           ),
           title: 'JBT',
           // home: LogInScreen(),
           initialRoute: LogInScreen.routeName,
-
 
           routes: {
             LogInScreen.routeName: (ctx) => UserLoginScreen(),
@@ -47,26 +45,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MultiProvider(
-//       providers: [
-//         ChangeNotifierProvider.value(
-//           value: AuthenticationProvider(),
-//         ),
-//         // ChangeNotifierProxyProvider<Auth, Products>(
-//         //   builder: (ctx, auth, previousProducts) => Products(
-//         //         auth.token,
-//         //         auth.userId,
-//         //         previousProducts == null ? [] : previousProducts.items,
-//         //       ),
-//         // ),
-//       ],
-//       child: Consumer<AuthenticationProvider>(
-
-//       ),
-//     );
-//   }
-// }

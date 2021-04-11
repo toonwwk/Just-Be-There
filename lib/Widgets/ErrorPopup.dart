@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../helper.dart';
 
 enum AuthStatus {
   successful,
@@ -13,41 +14,55 @@ enum AuthStatus {
   unknown,
 }
 
-class errorState {
-  static generateExceptionMessage(exceptionCode) {
-    String errorMessage;
-    switch (exceptionCode) {
+class ErrorPopup extends StatelessWidget {
+  final String _errorCode;
+
+  String get _errorMessage {
+    switch (_errorCode) {
       case 'invalid-email':
-        errorMessage = "The email address is badly formatted.";
+        return "The email address is badly formatted.";
         break;
       case "weakPassword":
-        errorMessage = "The password must be 8 characters long or more.";
+        return "The password must be 8 characters long or more.";
         break;
       case "user-disabled":
-        errorMessage = "User has been disabled!, Try again";
+        return "User has been disabled!, Try again";
         break;
       case 'email-already-in-use':
-        errorMessage = 'The email address is already registered. Sign in instead?';
+        return 'The email address is already registered. Sign in instead?';
         break;
       case 'invalid-credential':
-        errorMessage = 'The email address is badly formatted.';
+        return 'The email address is badly formatted.';
         break;
       case 'too-many-requests':
-        errorMessage = "We have blocked all requests from this device due to unusual activity. Try again later.";
+        return "We have blocked all requests from this device due to unusual activity. Try again later.";
         break;
       case 'user-not-found':
-        errorMessage = "The email address is not registered. Need an account?";
+        return "The email address is not registered. Need an account?";
         break;
       case 'wrong-password':
-        errorMessage = "The password is incorrect. Please try again.";
+        return "The password is incorrect. Please try again.";
         break;
       case 'unknown':
-        errorMessage = "Unknown error";
+        return "Unknown error";
         break;
+      default:
+        return "Unknown error";
     }
-    return errorMessage;
+  }
+
+  ErrorPopup(this._errorCode);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+        title: Text(
+          ("Error"),
+          style: appTextStyle.bold15Green,
+        ),
+        content: Text(
+          (_errorMessage),
+          style: appTextStyle.regular15Green,
+        ));
   }
 }
-
-
-
