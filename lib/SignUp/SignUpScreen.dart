@@ -23,6 +23,7 @@ class SignUpScreen extends State<UserSignUpScreen> {
   final TextEditingController passwordController = new TextEditingController();
   final FirebaseService _service = FirebaseService();
   String errorMsg;
+  String error;
 
   final AppBar appBar = AppBar(
     iconTheme: IconThemeData(
@@ -46,6 +47,7 @@ class SignUpScreen extends State<UserSignUpScreen> {
       if (errorCode.isNotEmpty) {
         // NOTE: Show popup here
         errorMsg = errorCode;
+        error = errorState.generateExceptionMessage(errorCode);
         _showAlertDialog(errorMsg);
         print("error " + errorCode);
       } else {
@@ -131,10 +133,11 @@ class SignUpScreen extends State<UserSignUpScreen> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              'Login Failed',
+              (errorMsg!=null?errorMsg:'dummy'),
               style: appTextStyle.regular15Green,
             ),
-            content: Text(errorMsg!=null?errorMsg:'dummy'),
+            content: Text((error!=null?error:'dummy'),
+          style: appTextStyle.regular15Green,)
           );
         }
     );

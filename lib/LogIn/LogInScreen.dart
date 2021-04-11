@@ -24,6 +24,7 @@ class LogInScreen extends State<UserLoginScreen> {
   final TextEditingController passwordController = new TextEditingController();
   final FirebaseService _service = FirebaseService();
   String errorMsg;
+  String error;
 
   void didTapLogInButton() async {
     await _service
@@ -36,6 +37,7 @@ class LogInScreen extends State<UserLoginScreen> {
         .then((errorCode) {
       if (errorCode.isNotEmpty) {
         errorMsg = errorCode;
+        error = errorState.generateExceptionMessage(errorCode);
         _showAlertDialog(errorMsg);
         print("error " + errorCode);
     } else {
@@ -134,10 +136,11 @@ class LogInScreen extends State<UserLoginScreen> {
         builder: (context) {
           return AlertDialog(
             title: Text(
-              'Login Failed',
+              (errorMsg!=null?errorMsg:'dummy'),
               style: appTextStyle.regular15Green,
             ),
-            content: Text(errorMsg!=null?errorMsg:'dummy'),
+            content: Text((error!=null?error:'dummy'),
+            style: appTextStyle.regular15Green,)
           );
         }
         );
