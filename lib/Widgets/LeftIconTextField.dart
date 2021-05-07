@@ -8,6 +8,7 @@ enum TextFieldType {
   tel,
   location,
   date,
+  eventTitle,
 }
 
 class LeftIconTextField extends StatelessWidget {
@@ -118,6 +119,11 @@ class LeftIconTextField extends StatelessWidget {
           _enabled = true;
         }
         break;
+      case TextFieldType.eventTitle:
+        {
+          _icon = Icons.title;
+          _maxLines = 1;
+        }
     }
   }
 }

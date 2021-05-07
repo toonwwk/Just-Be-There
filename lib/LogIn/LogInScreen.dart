@@ -107,9 +107,12 @@ class LogInScreen extends State<UserLoginScreen> {
                 SizedBox(
                   height: 15,
                 ),
-                RoundButton(
-                  AuthButtonType.logIn,
-                  didTapLogInButton,
+                SizedBox(
+                  width: double.infinity,
+                  child: RoundButton(
+                    AuthButtonType.logIn,
+                    didTapLogInButton,
+                  ),
                 ),
                 SizedBox(
                   height: 20,

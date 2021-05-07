@@ -117,9 +117,12 @@ class SignUpScreen extends State<UserSignUpScreen> {
                 SizedBox(
                   height: 15,
                 ),
-                RoundButton(
-                  AuthButtonType.signUp,
-                  didTapSignUpButton,
+                SizedBox(
+                  width: double.infinity,
+                  child: RoundButton(
+                    AuthButtonType.signUp,
+                    didTapSignUpButton,
+                  ),
                 ),
               ],
             ),

@@ -23,7 +23,6 @@ class RoundButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ButtonTheme(
-      minWidth: double.infinity - 40,
       height: 40,
       child: ElevatedButton(
         onPressed: () => _didTap(),

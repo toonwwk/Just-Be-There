@@ -4,7 +4,12 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 
 import '../helper.dart';
 
+// ignore: must_be_immutable
 class ImagePicker extends StatefulWidget {
+  final Function didSelectImages;
+
+  ImagePicker({Key key, this.didSelectImages}) : super(key: key);
+
   @override
   _ImagePicker createState() => _ImagePicker();
 }
@@ -80,6 +85,7 @@ class _ImagePicker extends State<ImagePicker> {
 
     setState(() {
       images = resultList;
+      widget.didSelectImages(images);
     });
   }
 
