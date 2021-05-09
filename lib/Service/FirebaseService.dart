@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:jbt/Models/NewEventForm.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -41,28 +43,34 @@ class FirebaseService with ChangeNotifier {
     });
   }
 
-  Future<List<String>> uploadImage(
-      List<Asset> _imageFile, String eventName) async {
-    List<String> _urllist = [];
-    print(_imageFile.length);
-    int i = 0;
-    _imageFile.forEach((imageAsset) async {
-      final filePath =
-          await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier);
-      print(filePath);
-      File imageFile = File(filePath);
-      if (imageFile.existsSync()) {
-        Reference reference =
-            FirebaseStorage.instance.ref().child(eventName).child(i.toString());
-        UploadTask uploadTask = reference.putFile(imageFile);
-        uploadTask.then((res) async {
-          String _url = await res.ref.getDownloadURL();
-          _urllist.add(_url);
-          print(_url);
-        });
-      }
-      i += 1;
+  Future<String> uploadImageToStorage(
+      Asset imageAsset, String eventName, String fileName) async {
+    File imageFile =
+        File(await FlutterAbsolutePath.getAbsolutePath(imageAsset.identifier));
+    Reference reference =
+        FirebaseStorage.instance.ref().child(eventName).child(fileName);
+
+    return await reference.putFile(imageFile).then((res) {
+      return res.ref.getDownloadURL();
+    }).catchError((e) {
+      print(e.code.toString());
     });
-    return _urllist;
+  }
+
+  Future<void> uploadFormToFireStore(NewEventForm form) {
+    FirebaseFirestore.instance
+        .collection("NewEventRequests")
+        .doc(form.eventName)
+        .set({
+      "event-name": form.eventName,
+      "address": form.address,
+      "description": form.description,
+      "startDate": form.startDate,
+      "endDate": form.endDate,
+      "tel": form.tel,
+      "lat": form.lat,
+      "long": form.long,
+      "url-list": form.urlList,
+    });
   }
 }

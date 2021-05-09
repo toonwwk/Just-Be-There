@@ -3,6 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:jbt/helper.dart';
 
 class DatePickerTextField extends StatefulWidget {
+  final Function didSelectDateRange;
+
+  DatePickerTextField({Key key, this.didSelectDateRange}) : super(key: key);
+
   @override
   _DatePickerTextFieldState createState() => _DatePickerTextFieldState();
 }
@@ -73,6 +77,9 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
 
     if (newDateRange == null) return;
 
-    setState(() => dateRange = newDateRange);
+    setState(() {
+      dateRange = newDateRange;
+      widget.didSelectDateRange(getStart(), getTill());
+    });
   }
 }

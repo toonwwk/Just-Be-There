@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_absolute_path/flutter_absolute_path.dart';
+import 'package:jbt/Models/NewEventForm.dart';
 import 'package:jbt/Service/FirebaseService.dart';
 import 'package:jbt/Widgets/LeftIconTextField.dart';
 import 'package:jbt/Widgets/DatePickerTextField.dart';
@@ -43,13 +44,43 @@ class NewEventScreen extends StatelessWidget {
   );
 
   List<Asset> images = <Asset>[];
+  String startDate;
+  String endDate;
 
   void didSelectImages(List<Asset> images) {
     this.images = images;
   }
 
+  void didSelectDateRange(String startDate, String endDate) {
+    this.startDate = startDate;
+    this.endDate = endDate;
+  }
+
   Future<void> didPressSubmitButton() async {
-    _service.uploadImage(images, titleController.text);
+    int i = 0;
+    List<String> imageUrlList = [];
+    await Future.forEach(images, (image) async {
+      await _service
+          .uploadImageToStorage(image, titleController.text, i.toString())
+          .then((value) {
+        print(value);
+        imageUrlList.add(value);
+      });
+    });
+
+    NewEventForm form = NewEventForm(
+      titleController.text,
+      "address",
+      detailController.text,
+      startDate,
+      endDate,
+      telController.text,
+      123.3,
+      123.5,
+      imageUrlList,
+    );
+
+    _service.uploadFormToFireStore(form);
   }
 
   @override
@@ -107,7 +138,7 @@ class NewEventScreen extends StatelessWidget {
                     SizedBox(
                       height: 15,
                     ),
-                    DatePickerTextField(),
+                    DatePickerTextField(didSelectDateRange: didSelectDateRange),
                     SizedBox(
                       height: 15,
                     ),
