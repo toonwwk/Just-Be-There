@@ -23,6 +23,7 @@ dependencies:
   recase: ^3.0.1
   multi_image_picker: ^4.8.0
   intl: ^0.17.0
+  mask_text_input_formatter: ^1.2.1
 
 
 dev_dependencies:
