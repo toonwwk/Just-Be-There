@@ -1,25 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_absolute_path/flutter_absolute_path.dart';
 import 'package:jbt/Models/NewEventForm.dart';
 import 'package:jbt/Service/FirebaseService.dart';
 import 'package:jbt/Widgets/LeftIconTextField.dart';
 import 'package:jbt/Widgets/DatePickerTextField.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-
 import '../helper.dart';
 import 'ImagePicker.dart';
-// import 'package:path_provider/path_provider.dart';
-// Future<File> getImageFileFromAssets(String path) async {
-//   final byteData = await rootBundle.load('assets/$path');
-
-//   final file = File('${(await getTemporaryDirectory()).path}/$path');
-//   await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-
-//   return file;
-// }
 
 class NewEventScreen extends StatelessWidget {
   static const routeName = '/new-event';
@@ -59,6 +45,7 @@ class NewEventScreen extends StatelessWidget {
   Future<void> didPressSubmitButton() async {
     int i = 0;
     List<String> imageUrlList = [];
+
     await Future.forEach(images, (image) async {
       await _service
           .uploadImageToStorage(image, titleController.text, i.toString())
@@ -68,7 +55,7 @@ class NewEventScreen extends StatelessWidget {
       });
     });
 
-    NewEventForm form = NewEventForm(
+    EventForm form = EventForm(
       titleController.text,
       "address",
       detailController.text,
@@ -80,7 +67,13 @@ class NewEventScreen extends StatelessWidget {
       imageUrlList,
     );
 
-    _service.uploadFormToFireStore(form);
+    Future<bool> result = _service.uploadFormToFireStore(form);
+    result.then((value) {
+      print(value.toString());
+      print("sucess");
+    }).catchError((onError) {
+      print("error uploading form");
+    });
   }
 
   @override

@@ -57,20 +57,56 @@ class FirebaseService with ChangeNotifier {
     });
   }
 
-  Future<void> uploadFormToFireStore(NewEventForm form) {
-    FirebaseFirestore.instance
+  Future<bool> uploadFormToFireStore(EventForm form) {
+    return FirebaseFirestore.instance
         .collection("NewEventRequests")
         .doc(form.eventName)
         .set({
       "event-name": form.eventName,
       "address": form.address,
       "description": form.description,
-      "startDate": form.startDate,
-      "endDate": form.endDate,
+      "start-date": form.startDate,
+      "end-date": form.endDate,
       "tel": form.tel,
       "lat": form.lat,
       "long": form.long,
       "url-list": form.urlList,
+      "status": false,
+    }).then((value) {
+      return true;
+    }).catchError((onError) {
+      return false;
+    });
+  }
+
+  Future<List<EventForm>> fetchEventFromFirestore() async {
+    return await FirebaseFirestore.instance
+        .collection("NewEventRequests")
+        .where("status", isEqualTo: true)
+        .get()
+        .then((value) {
+      List<EventForm> eventList = [];
+      value.docs.forEach((form) {
+        print("??");
+        List<String> urlList = new List<String>.from(form["url-list"]);
+        EventForm event = EventForm(
+          form["event-name"],
+          form["address"],
+          form["description"],
+          form["startDate"],
+          form["endDate"],
+          form["tel"],
+          form["lat"],
+          form["long"],
+          urlList,
+        );
+        eventList.add(event);
+      });
+      print("done fetch");
+      return eventList;
+    }).catchError((e) {
+      print("error");
+      print(e.toString());
     });
   }
 }

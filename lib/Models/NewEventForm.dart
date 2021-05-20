@@ -1,5 +1,5 @@
-class NewEventForm {
-  const NewEventForm(
+class EventForm {
+  const EventForm(
     this.eventName,
     this.address,
     this.description,

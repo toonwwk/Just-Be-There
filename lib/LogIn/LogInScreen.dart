@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:jbt/Models/NewEventForm.dart';
 import 'package:jbt/NewEvent/NewEventScreen.dart';
 import 'package:jbt/Service/FirebaseService.dart';
 import 'package:jbt/Widgets/ErrorPopup.dart';
@@ -53,6 +54,13 @@ class LogInScreen extends State<UserLoginScreen> {
         builder: (context) => NewEventScreen(),
       ),
     );
+  }
+
+  Future<void> fetchData() async {
+    var a = await _service.fetchEventFromFirestore();
+    a.forEach((element) {
+      print(element.eventName);
+    });
   }
 
   @override
@@ -118,7 +126,8 @@ class LogInScreen extends State<UserLoginScreen> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () => pushNewEventScreen(context),
+                  // onPressed: () => pushNewEventScreen(context),
+                  onPressed: () => fetchData(),
                   child: Text("Dummy"),
                 ),
                 SizedBox(
