@@ -38,7 +38,7 @@ class InfoWindowModel extends ChangeNotifier {
     double left = (screenCoordinate.x.toDouble() / devicePixelRatio) -
         (infoWindowWidth / 2);
     double top =
-        (screenCoordinate.x.toDouble() / devicePixelRatio) - markerOffset;
+        (screenCoordinate.y.toDouble() / devicePixelRatio) - markerOffset;
 
     if (left < 0 || top < 0) {
       _tempHidden = true;
