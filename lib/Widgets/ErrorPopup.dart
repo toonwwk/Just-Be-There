@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -35,7 +36,7 @@ class ErrorPopup extends StatelessWidget {
         return 'The email address is badly formatted.';
         break;
       case 'too-many-requests':
-        return "We have blocked all requests from this device due to unusual activity. Try again later.";
+        return "Unusual activity detected. Try again later.";
         break;
       case 'user-not-found':
         return "The email address is not registered. Need an account?";
@@ -55,14 +56,42 @@ class ErrorPopup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-        title: Text(
-          ("Error"),
-          style: appTextStyle.bold15Green,
+    return Dialog(
+        elevation: 24,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4.0)
         ),
-        content: Text(
-          (_errorMessage),
-          style: appTextStyle.regular15Green,
-        ));
+        child: Stack(
+          clipBehavior: Clip.none,
+          alignment: Alignment.topCenter,
+              children : [
+              Container(
+                height: 220,
+                width: 210,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 70, 0, 10),
+                child: Column(
+                  children: [
+                    SizedBox(height: 20,),
+                    Text((_errorCode), style: appTextStyle.bold18Green,),
+                    SizedBox(height: 15,),
+                    Text((_errorMessage), style: appTextStyle.regular15Green,),
+                    SizedBox(height: 20,),
+                ],
+                ),
+              ),
+
+            ),
+                Positioned(
+                    top: 20,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.redAccent,
+                      radius: 30,
+                      child: Icon(Icons.error, color: Colors.white, size: 60,),
+                    )
+                ),
+          ],
+        ),
+    );
   }
 }
