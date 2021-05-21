@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:jbt/InfoWindowModel.dart';
 import 'package:jbt/MyBottomNav.dart';
+import 'package:provider/provider.dart';
 
 import 'helper.dart';
 
 void main() {
-  runApp(MyBottomNav());
+  runApp(ChangeNotifierProvider(
+    create: (context) => InfoWindowModel(),
+    child: MyBottomNav(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
