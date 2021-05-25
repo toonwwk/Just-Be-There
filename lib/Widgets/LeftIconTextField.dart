@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../helper.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 enum TextFieldType {
   email,
@@ -20,6 +21,7 @@ class LeftIconTextField extends StatelessWidget {
   int _maxLines;
   IconData _icon;
   bool _enabled = false;
+  var maskFormatter = new MaskTextInputFormatter(mask: '');
 
   String get placeHolder {
     return _type.toString().substring(_type.toString().indexOf('.') + 1);
@@ -43,12 +45,7 @@ class LeftIconTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: TextField(
-        onChanged: (String value) async {
-          if (value.length == 3) {
-            value = value + "-";
-            return;
-          }
-        },
+        inputFormatters: [maskFormatter],
         keyboardType: _keyboardType,
         obscureText: _type == TextFieldType.password ? true : false,
         controller: _controller,
@@ -104,6 +101,7 @@ class LeftIconTextField extends StatelessWidget {
           _icon = Icons.local_phone;
           _maxLines = 1;
           _keyboardType = TextInputType.phone;
+          maskFormatter = new MaskTextInputFormatter(mask: '###-###-####', filter: { "#": RegExp(r'[0-9]') });
         }
         break;
       case TextFieldType.date:
@@ -117,6 +115,7 @@ class LeftIconTextField extends StatelessWidget {
           _icon = Icons.location_on;
           _maxLines = 1;
           _enabled = true;
+
         }
         break;
       case TextFieldType.eventTitle:
