@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jbt/Models/NewEventForm.dart';
+import 'package:jbt/MyBottomNav.dart';
 import 'package:jbt/NewEvent/NewEventScreen.dart';
 import 'package:jbt/Service/FirebaseService.dart';
 import 'package:jbt/Widgets/ErrorPopup.dart';
@@ -8,6 +9,9 @@ import 'package:jbt/Widgets/RoundButton.dart';
 import 'package:jbt/Widgets/LeftIconTextField.dart';
 import 'package:jbt/helper.dart';
 import 'package:jbt/Widgets/SignUpText.dart';
+import 'package:provider/provider.dart';
+
+import '../InfoWindowModel.dart';
 
 class UserLoginScreen extends StatefulWidget {
   final bool needPop;
@@ -43,6 +47,15 @@ class LogInScreen extends State<UserLoginScreen> {
         print("error " + errorCode);
       } else {
         print("sign in success");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ChangeNotifierProvider(
+              create: (context) => InfoWindowModel(),
+              child: MyBottomNav(),
+            ),
+          ),
+        );
       }
     });
   }

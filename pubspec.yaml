@@ -26,6 +26,9 @@ dependencies:
   path_provider: ^2.0.1
   flutter_absolute_path: ^1.0.6
   mask_text_input_formatter: ^1.2.1
+  flutter_google_places: ^0.3.0
+  google_maps_flutter: ^2.0.5
+
 
 dev_dependencies:
   flutter_test:
