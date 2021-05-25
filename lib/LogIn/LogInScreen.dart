@@ -42,7 +42,7 @@ class LogInScreen extends State<UserLoginScreen> {
         );
         print("error " + errorCode);
       } else {
-        print("sign up success");
+        print("sign in success");
       }
     });
   }
