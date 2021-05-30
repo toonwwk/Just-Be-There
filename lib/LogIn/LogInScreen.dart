@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jbt/Models/NewEventForm.dart';
+import 'package:jbt/Models/EventForm.dart';
 import 'package:jbt/MyBottomNav.dart';
 import 'package:jbt/NewEvent/NewEventScreen.dart';
 import 'package:jbt/Service/FirebaseService.dart';
@@ -139,8 +139,8 @@ class LogInScreen extends State<UserLoginScreen> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  // onPressed: () => pushNewEventScreen(context),
-                  onPressed: () => fetchData(),
+                  onPressed: () => pushNewEventScreen(context),
+                  // onPressed: () => fetchData(),
                   child: Text("Dummy"),
                 ),
                 SizedBox(

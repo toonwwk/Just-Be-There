@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:jbt/Models/EventForm.dart';
+import 'package:jbt/Service/FirebaseService.dart';
 import 'package:provider/provider.dart';
 
 import 'InfoWindowModel.dart';
@@ -14,15 +16,22 @@ class _MapPageState extends State<MapPage> {
   GoogleMapController mapController;
   Set<Marker> _markers = Set<Marker>();
 
-  final Map<String, Event> _eventList = {
-    "event1": Event('CovidParty', LatLng(13.756331, 100.501762), 'Details',
-        'click to jump'),
-    "event2": Event('CovidParty2', LatLng(13.784280, 100.599937), 'Details2',
-        'click to jump2')
-  };
+  // final Map<String, Event> _eventList = {
+  //   "event1": Event('CovidParty', LatLng(13.756331, 100.501762), 'Details',
+  //       'click to jump'),
+  // "event2": Event('CovidParty2', LatLng(13.784280, 100.599937), 'Details2',
+  //       'click to jump2')
+  // };
+
+  List<EventForm> _eventList = [];
 
   final double _infoWindowWidth = 250;
   final double _markerOffset = 170;
+  final FirebaseService _service = FirebaseService();
+
+  Future<void> fetchMakers() async {
+    _eventList = await _service.fetchEventFromFirestore();
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     setState(() {
@@ -40,26 +49,34 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     final providerObject = Provider.of<InfoWindowModel>(context, listen: false);
-    _eventList.forEach((key, value) {
-      _markers.add(Marker(
-          markerId: MarkerId(value.eventName),
-          position: value.location,
-          onTap: () {
-            providerObject.updateInfo(context, mapController, value.location,
-                _infoWindowWidth, _markerOffset);
-
-            providerObject.updateEvent(value);
-            providerObject.updateVisibility(true);
-            providerObject.rebuildInfoWindow();
-          }));
-    })
-        // Marker(
-        //   markerId: MarkerId("id-1"),
-        //   position: LatLng(13.756331, 100.501762),
-        //   infoWindow: InfoWindow(
-        //       title: 'Cartoon Home', snippet: 'This is where Cartoon live'),
-        // ),
-        ;
+    print('----------- Here ------------');
+    fetchMakers().then((value) {
+      print(_eventList.length);
+      print(_eventList.elementAt(0).lat);
+      _eventList.forEach((event) {
+        _markers.add(Marker(
+            markerId: MarkerId(event.eventName),
+            position: LatLng(event.lat, event.long),
+            onTap: () {
+              providerObject.updateInfo(
+                  context,
+                  mapController,
+                  LatLng(event.lat, event.long),
+                  _infoWindowWidth,
+                  _markerOffset);
+              providerObject.updateEvent(event);
+              providerObject.updateVisibility(true);
+              providerObject.rebuildInfoWindow();
+            }));
+      });
+    });
+    // Marker(
+    //   markerId: MarkerId("id-1"),
+    //   position: LatLng(13.756331, 100.501762),
+    //   infoWindow: InfoWindow(
+    //       title: 'Cartoon Home', snippet: 'This is where Cartoon live'),
+    // ),
+    ;
     return Scaffold(
         appBar: new AppBar(
           title: new Text("GoogleMaps"),
@@ -139,7 +156,8 @@ class _MapPageState extends State<MapPage> {
                     providerObject.updateInfo(
                         context,
                         mapController,
-                        providerObject.event.location,
+                        LatLng(providerObject.event.lat,
+                            providerObject.event.long),
                         _infoWindowWidth,
                         _markerOffset);
                     providerObject.rebuildInfoWindow();

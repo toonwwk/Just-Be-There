@@ -3,12 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'Models/EventForm.dart';
 import 'model/event.dart';
 
 class InfoWindowModel extends ChangeNotifier {
   bool _showInfoWindow = false;
   bool _tempHidden = false;
-  Event _event;
+  EventForm _event;
   double _leftMargin;
   double _topMargin;
 
@@ -16,7 +17,7 @@ class InfoWindowModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateEvent(Event event) {
+  void updateEvent(EventForm event) {
     _event = event;
   }
 
@@ -55,5 +56,5 @@ class InfoWindowModel extends ChangeNotifier {
   double get leftMargin => _leftMargin;
   double get topMargin => _topMargin;
 
-  Event get event => _event;
+  EventForm get event => _event;
 }

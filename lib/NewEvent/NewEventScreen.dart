@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jbt/Models/NewEventForm.dart';
+import 'package:jbt/Models/EventForm.dart';
 import 'package:jbt/Service/FirebaseService.dart';
 import 'package:jbt/Widgets/LeftIconTextField.dart';
 import 'package:jbt/Widgets/DatePickerTextField.dart';
