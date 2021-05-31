@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:jbt/SearchPage.dart';
+import 'package:jbt/SlideRoute.dart';
 import 'package:provider/provider.dart';
 
 import 'InfoWindowModel.dart';
@@ -61,102 +63,116 @@ class _MapPageState extends State<MapPage> {
         // ),
         ;
     return Scaffold(
-        appBar: new AppBar(
-          title: new Text("GoogleMaps"),
-        ),
-        body: Container(
-          child: Consumer<InfoWindowModel>(
-            builder: (context, model, child) {
-              return Stack(
-                children: [
-                  child,
-                  Positioned(
-                      left: 0,
-                      top: 0,
-                      child: Visibility(
-                        visible: providerObject.showInfoWindow,
-                        child: (providerObject.event == null ||
-                                !providerObject.showInfoWindow)
-                            ? Container()
-                            : Container(
-                                margin: EdgeInsets.only(
-                                    left: providerObject.leftMargin,
-                                    top: providerObject.topMargin),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              Colors.white,
-                                              Colors.blueAccent,
-                                            ],
-                                            end: Alignment.bottomCenter,
-                                            begin: Alignment.topCenter,
-                                          ),
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color: Colors.green,
-                                                offset: Offset(0.0, 1.0),
-                                                blurRadius: 6.0)
-                                          ]),
-                                      height: 115,
-                                      width: 250,
-                                      padding: EdgeInsets.all(15),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Column(
-                                            children: [
-                                              Text(providerObject
-                                                  .event.eventName),
-                                            ],
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
+      appBar: new AppBar(
+        title: new Text("Maps"),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  SlideLeftRoute(page: MySearchPage()),
+                );
+              })
+        ],
+      ),
+      body: Container(
+        child: Consumer<InfoWindowModel>(
+          builder: (context, model, child) {
+            return Stack(
+              children: [
+                child,
+                Positioned(
+                    left: 0,
+                    top: 0,
+                    child: Visibility(
+                      visible: providerObject.showInfoWindow,
+                      child: (providerObject.event == null ||
+                              !providerObject.showInfoWindow)
+                          ? Container()
+                          : Container(
+                              margin: EdgeInsets.only(
+                                  left: providerObject.leftMargin,
+                                  top: providerObject.topMargin),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.white,
+                                            Colors.grey,
+                                          ],
+                                          end: Alignment.bottomCenter,
+                                          begin: Alignment.topCenter,
+                                        ),
+                                        boxShadow: [
+                                          BoxShadow(
+                                              color: Colors.blueGrey,
+                                              offset: Offset(0.0, 1.0),
+                                              blurRadius: 6.0)
+                                        ]),
+                                    height: 115,
+                                    width: 250,
+                                    padding: EdgeInsets.all(15),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(
+                                                providerObject.event.eventName),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
                               ),
-                      ))
-                ],
-              );
-            },
-            child: Positioned(
-              child: GoogleMap(
-                onTap: (position) {
-                  if (providerObject.showInfoWindow) {
-                    providerObject.updateVisibility(false);
-                    providerObject.rebuildInfoWindow();
-                  }
-                },
-                onCameraMove: (position) {
-                  if (providerObject.event != null) {
-                    providerObject.updateInfo(
-                        context,
-                        mapController,
-                        providerObject.event.location,
-                        _infoWindowWidth,
-                        _markerOffset);
-                    providerObject.rebuildInfoWindow();
-                  }
-                },
-                onMapCreated: (GoogleMapController controller) {
-                  mapController = controller;
-                },
-                markers: _markers,
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(13.756331, 100.501762),
-                  zoom: 15,
-                ),
+                            ),
+                    ))
+              ],
+            );
+          },
+          child: Positioned(
+            child: GoogleMap(
+              onTap: (position) {
+                if (providerObject.showInfoWindow) {
+                  providerObject.updateVisibility(false);
+                  providerObject.rebuildInfoWindow();
+                }
+              },
+              onCameraMove: (position) {
+                if (providerObject.event != null) {
+                  providerObject.updateInfo(
+                      context,
+                      mapController,
+                      providerObject.event.location,
+                      _infoWindowWidth,
+                      _markerOffset);
+                  providerObject.rebuildInfoWindow();
+                }
+              },
+              onMapCreated: (GoogleMapController controller) {
+                mapController = controller;
+              },
+              markers: _markers,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(13.756331, 100.501762),
+                zoom: 15,
               ),
             ),
           ),
-        ));
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
   }
 }
 
