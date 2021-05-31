@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jbt/MapPage.dart';
 import 'package:jbt/NotificationsPage.dart';
+import 'package:jbt/Overview/OverviewScreen.dart';
 import 'package:jbt/SettingsPage.dart';
 
 class MyBottomNav extends StatelessWidget {
@@ -26,7 +27,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   final List<Widget> _children = [
     SettingsPage(),
     MapPage(),
-    NotificationsPage()
+    OverviewScreen(),
   ];
 
   void onTappedBar(int index) {
@@ -47,7 +48,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                 icon: new Icon(Icons.settings), label: ("Setting")),
             BottomNavigationBarItem(icon: new Icon(Icons.map), label: ("Map")),
             BottomNavigationBarItem(
-                icon: new Icon(Icons.notifications), label: ("Notification")),
+                icon: new Icon(Icons.notifications), label: ("Overview")),
           ],
         ));
   }

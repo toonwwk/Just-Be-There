@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jbt/Overview/slide.dart';
 import '../helper.dart';
+import 'dart:io';
 
 class OverviewScreen extends StatefulWidget{
   @override
@@ -34,6 +35,7 @@ class OverviewScreenState extends State<OverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -48,19 +50,62 @@ class OverviewScreenState extends State<OverviewScreen> {
       ),
       backgroundColor: Colors.white,
       body: PageView.builder(
-          controller: _pageController,
-          onPageChanged: (val){
-            setState(() {
-              current = val;
-            });
+        controller: _pageController,
+        onPageChanged: (val){
+          setState(() {
+            current = val;
+          });
         },
         itemBuilder: (context, index){
-            return Tile(
-
-            );
+          return Tile(
+            image:slides[index].image,
+            title:slides[index].title,
+            detail:slides[index].detail,
+          );
         },
         itemCount: slides.length,
       ),
+      bottomSheet: Container(
+        height: deviceSize.height*0.05,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                _pageController.animateToPage(
+                  current - 1,
+                  duration: Duration(milliseconds: 400),
+                  curve: Curves.linear,
+                );
+              },
+              child: Text("PREV",style: appTextStyle.regular13Green,),
+            ),
+
+            Row(
+              children: <Widget>[
+                for(int i = 0; i < slides.length; i++)
+                  current == i
+                      ? indicator(true)
+                      : indicator(false)
+              ],
+            ),
+
+            GestureDetector(
+              onTap: () {
+                _pageController.animateToPage(
+                  current + 1,
+                  duration: Duration(milliseconds: 400),
+                  curve: Curves.linear,
+                );
+              },
+              child: Text("NEXT",style: appTextStyle.regular13Green,),
+            ),
+          ],
+        ),
+
+      ),
+
     );
   }
 }
