@@ -2,14 +2,33 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-class Place {
-  final String placeId, description;
+// class Place {
+//   final String placeId, description;
+//
+//   Place({this.placeId, this.description});
+//   static Place fromJson(Map<String, dynamic> json) {
+//     return Place(
+//       placeId: json['placeId'],
+//       description: json['description'],
+//     );
+//   }
+// }
 
-  Place({this.placeId, this.description});
-  static Place fromJson(Map<String, dynamic> json) {
-    return Place(
+class Places {
+  final String placeId, formatted_address, geometry, name;
+
+  Places({
+    this.placeId,
+    this.formatted_address,
+    this.geometry,
+    this.name,
+  });
+  static Places fromJson(Map<String, dynamic> json) {
+    return Places(
       placeId: json['placeId'],
-      description: json['description'],
+      formatted_address: json['description'],
+      geometry: json['geometry'],
+      name: json['name'],
     );
   }
 }
@@ -23,7 +42,7 @@ class PlaceApi {
   static final String iosKey = 'AIzaSyA7B8GU2iS0g0sLaiwgdbpo0hJ0GKBPSRQ';
   final apiKey = Platform.isAndroid ? androidKey : iosKey;
 
-  Future<List<Place>> searchPredictions(String input) async {
+  Future<List<Places>> searchPredictions(String input) async {
     try {
       final response = await this._dio.get(
         'https://maps.googleapis.com/maps/api/place/autocomplete/json',
@@ -38,8 +57,8 @@ class PlaceApi {
         },
       );
       // print(response.data);
-      final List<Place> places = (response.data['predictions'] as List)
-          .map((item) => Place.fromJson(item))
+      final List<Places> places = (response.data['results'] as List)
+          .map((item) => Places.fromJson(item))
           .toList();
       return places;
     } catch (e) {
