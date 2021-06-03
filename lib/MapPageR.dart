@@ -1,20 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:jbt/SearchPageF.dart';
-import 'package:jbt/SlideRoute.dart';
+import 'package:google_place/google_place.dart';
 import 'package:provider/provider.dart';
 
 import 'InfoWindowModel.dart';
 import 'model/event.dart';
 
-class MapPage extends StatefulWidget {
+class MapPageR extends StatefulWidget {
+  final String placeId;
+  final GooglePlace googlePlace;
+
+  MapPageR({Key key, this.placeId, this.googlePlace}) : super(key: key);
+
   @override
-  _MapPageState createState() => _MapPageState();
+  _MapPageRState createState() =>
+      _MapPageRState(this.placeId, this.googlePlace);
 }
 
-class _MapPageState extends State<MapPage> {
+class _MapPageRState extends State<MapPageR> {
+  final String placeId;
+  final GooglePlace googlePlace;
+
+  _MapPageRState(this.placeId, this.googlePlace);
+  DetailsResult detailsResult;
+  // var tempPlaceId = detailsResult.name.isNotEmpty;
+
   GoogleMapController mapController;
   Set<Marker> _markers = Set<Marker>();
+
+  @override
+  void initState() {
+    getDetails(this.placeId);
+    super.initState();
+  }
+  // final Map<String, Event> tempList = this.placeId != null ? {} : {};
 
   final Map<String, Event> _eventList = {
     "event1": Event('CovidParty', LatLng(13.756331, 100.501762), 'Details',
@@ -31,7 +50,14 @@ class _MapPageState extends State<MapPage> {
       _markers.add(
         Marker(
           markerId: MarkerId("id-1"),
-          position: LatLng(13.756331, 100.501762),
+          position: LatLng(
+              detailsResult.geometry != null
+                  ? 13.756331
+                  : detailsResult.geometry.location.lat,
+              detailsResult.geometry != null
+                  ? 100.501762
+                  : detailsResult.geometry.location.lng),
+          // position: LatLng(13.756331, 100.501762),
           infoWindow: InfoWindow(
               title: 'Cartoon Home', snippet: 'This is where Cartoon live'),
         ),
@@ -41,6 +67,11 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(placeId);
+    // print(detailsResult.formattedAddress);
+    print(detailsResult.geometry.location.lat.toString());
+    print(detailsResult.geometry.location.lng.toString());
+
     final providerObject = Provider.of<InfoWindowModel>(context, listen: false);
     _eventList.forEach((key, value) {
       _markers.add(Marker(
@@ -69,10 +100,10 @@ class _MapPageState extends State<MapPage> {
           IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  SlideLeftRoute(page: SearchPage()),
-                );
+                // Navigator.push(
+                //   context,
+                //   SlideLeftRoute(page: NearbySearchPage()),
+                // );
               })
         ],
       ),
@@ -173,6 +204,15 @@ class _MapPageState extends State<MapPage> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  void getDetails(String placeId) async {
+    var result = await this.googlePlace.details.get(placeId);
+    if (result != null && result.result != null && mounted) {
+      setState(() {
+        detailsResult = result.result;
+      });
+    }
   }
 }
 

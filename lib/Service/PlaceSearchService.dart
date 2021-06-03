@@ -2,66 +2,62 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-// class Place {
-//   final String placeId, description;
-//
-//   Place({this.placeId, this.description});
-//   static Place fromJson(Map<String, dynamic> json) {
-//     return Place(
-//       placeId: json['placeId'],
-//       description: json['description'],
-//     );
-//   }
-// }
-
 class Places {
-  final String placeId, formatted_address, geometry, name;
+  final String placeId, business_status, geometry, name, vicinity;
 
-  Places({
-    this.placeId,
-    this.formatted_address,
-    this.geometry,
-    this.name,
-  });
+  Places(
+      {this.placeId,
+      this.business_status,
+      this.geometry,
+      this.name,
+      this.vicinity});
   static Places fromJson(Map<String, dynamic> json) {
     return Places(
-      placeId: json['placeId'],
-      formatted_address: json['description'],
+      placeId: json['place_id'],
+      business_status: json['business_status'],
       geometry: json['geometry'],
       name: json['name'],
+      vicinity: json['vicinity'],
     );
   }
 }
 
-class PlaceApi {
-  PlaceApi._internal();
-  static PlaceApi get instance => PlaceApi._internal();
+class NearbySearchApi {
+  NearbySearchApi._internal();
+  static NearbySearchApi get instance => NearbySearchApi._internal();
   final Dio _dio = Dio();
 
   static final String androidKey = 'AIzaSyA7B8GU2iS0g0sLaiwgdbpo0hJ0GKBPSRQ';
   static final String iosKey = 'AIzaSyA7B8GU2iS0g0sLaiwgdbpo0hJ0GKBPSRQ';
   final apiKey = Platform.isAndroid ? androidKey : iosKey;
 
-  Future<List<Places>> searchPredictions(String input) async {
+  Future<List<Places>> searchNearbyPlaces(String input) async {
     try {
+      print(input);
       final response = await this._dio.get(
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json',
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json',
         queryParameters: {
-          "input": input,
-          "key": apiKey,
-          "types": "address",
-          "language": "en",
-          "components": "country:TH",
+          // "types": "address",
+          "location":
+              "13.7478586,100.5653082", //This should be the users location
           "radius": 5000, //5km radius
-          "location": "13.820640,99.875360", //This should be the users location
+          "keyword": input,
+          "key": apiKey,
         },
       );
-      // print(response.data);
       final List<Places> places = (response.data['results'] as List)
           .map((item) => Places.fromJson(item))
           .toList();
+
+      final places2 = response.data['results']
+          .map<String>((result) => result['name'].toString())
+          .toList();
+      print(places2 + " places2");
+      print("Places.length" + places[0].name);
+      print("Tried in try catch");
       return places;
     } catch (e) {
+      print("Catch in try catch");
       return null;
     }
   }
