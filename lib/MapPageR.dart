@@ -38,8 +38,6 @@ class _MapPageRState extends State<MapPageR> {
   void initState() {
     if (this.placeId != null) {
       getDetails(this.placeId);
-    } else {
-      getCurrentLocation();
     }
     super.initState();
   }
@@ -79,152 +77,167 @@ class _MapPageRState extends State<MapPageR> {
             // providerObject.rebuildInfoWindow();
           }));
     });
-    return Scaffold(
-      appBar: new AppBar(
-        title: new Text("Maps"),
-        actions: [
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                searchPlace(context);
+    return FutureBuilder(
+      future: getCurrentLocation(),
+      builder: (context, snapshot) {
+        if (snapshot.data == null) {
+          EasyLoading.show(status: 'loading...');
+          return Container();
+        } else {
+          EasyLoading.dismiss();
+          return Scaffold(
+            appBar: new AppBar(
+              title: new Text("Maps"),
+              actions: [
+                IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      searchPlace(context);
 
-                // Navigator.push(
-                //   context,
-                //   SlideLeftRoute(page: SearchPage()),
-                // ).then(onGoBack);
-              })
-        ],
-      ),
-      body: Stack(
-        children: [
-          Container(
-            child: Consumer<InfoWindowModel>(
-              builder: (context, model, child) {
-                return Stack(
-                  children: [
-                    child,
-                    Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Visibility(
-                          visible: providerObject.showInfoWindow,
-                          child: (providerObject.event == null ||
-                                  !providerObject.showInfoWindow)
-                              ? Container()
-                              : Container(
-                                  margin: EdgeInsets.only(
-                                      left: providerObject.leftMargin,
-                                      top: providerObject.topMargin),
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            gradient: LinearGradient(
-                                              colors: [
-                                                Colors.white,
-                                                Colors.grey,
-                                              ],
-                                              end: Alignment.bottomCenter,
-                                              begin: Alignment.topCenter,
-                                            ),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                  color: Colors.blueGrey,
-                                                  offset: Offset(0.0, 1.0),
-                                                  blurRadius: 6.0)
-                                            ]),
-                                        height: 125,
-                                        width: 250,
-                                        padding: EdgeInsets.all(10),
+                      // Navigator.push(
+                      //   context,
+                      //   SlideLeftRoute(page: SearchPage()),
+                      // ).then(onGoBack);
+                    })
+              ],
+            ),
+            body: Stack(
+              children: [
+                Container(
+                  child: Consumer<InfoWindowModel>(
+                    builder: (context, model, child) {
+                      return Stack(
+                        children: [
+                          child,
+                          Positioned(
+                              left: 0,
+                              top: 0,
+                              child: Visibility(
+                                visible: providerObject.showInfoWindow,
+                                child: (providerObject.event == null ||
+                                        !providerObject.showInfoWindow)
+                                    ? Container()
+                                    : Container(
+                                        margin: EdgeInsets.only(
+                                            left: providerObject.leftMargin,
+                                            top: providerObject.topMargin),
                                         child: Column(
                                           children: [
-                                            SizedBox(
-                                              width: 10,
-                                            ),
-                                            Flexible(
-                                              flex: 1,
-                                              child: Text(
-                                                providerObject.event.eventName,
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(5),
+                                                  gradient: LinearGradient(
+                                                    colors: [
+                                                      Colors.white,
+                                                      Colors.grey,
+                                                    ],
+                                                    end: Alignment.bottomCenter,
+                                                    begin: Alignment.topCenter,
+                                                  ),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                        color: Colors.blueGrey,
+                                                        offset:
+                                                            Offset(0.0, 1.0),
+                                                        blurRadius: 6.0)
+                                                  ]),
+                                              height: 125,
+                                              width: 250,
+                                              padding: EdgeInsets.all(10),
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Flexible(
+                                                    flex: 1,
+                                                    child: Text(
+                                                      providerObject
+                                                          .event.eventName,
+                                                    ),
+                                                  ),
+                                                  Flexible(
+                                                    flex: 3,
+                                                    child: Text(
+                                                      providerObject
+                                                          .event.detail,
+                                                    ),
+                                                  ),
+                                                  Flexible(
+                                                    flex: 1,
+                                                    child: Text(
+                                                      providerObject.event.link
+                                                          .toString(),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ),
-                                            Flexible(
-                                              flex: 3,
-                                              child: Text(
-                                                providerObject.event.detail,
-                                              ),
-                                            ),
-                                            Flexible(
-                                              flex: 1,
-                                              child: Text(
-                                                providerObject.event.link
-                                                    .toString(),
-                                              ),
-                                            ),
+                                            )
                                           ],
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                        ))
-                  ],
-                );
-              },
-              child: Positioned(
-                child: GoogleMap(
-                  onTap: (position) {
-                    if (providerObject.showInfoWindow) {
-                      providerObject.updateVisibility(false);
-                      providerObject.rebuildInfoWindow();
-                    }
-                    print(position.latitude.toString());
-                    print(position.longitude.toString());
-                    setState(() {
-                      _eventList["event4"] = Event(
-                          'User selected location',
-                          LatLng(position.latitude, position.longitude),
-                          "",
-                          'click');
-                    });
-                  },
-                  onCameraMove: (position) {
-                    if (providerObject.event != null) {
-                      providerObject.updateInfo(
-                          context,
-                          mapController,
-                          providerObject.event.location,
-                          _infoWindowWidth,
-                          _markerOffset);
-                      providerObject.rebuildInfoWindow();
-                    }
-                  },
-                  onMapCreated: (GoogleMapController controller) {
-                    mapController = controller;
-                  },
-                  markers: _markers,
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(
-                        this.placeId == null
-                            ? _currentPosition.latitude
-                            : detailsResult.geometry.location.lat,
-                        this.placeId == null
-                            ? _currentPosition.longitude
-                            : detailsResult.geometry.location.lng),
-                    zoom: 15,
+                                      ),
+                              ))
+                        ],
+                      );
+                    },
+                    child: Positioned(
+                      child: GoogleMap(
+                        onTap: (position) {
+                          if (providerObject.showInfoWindow) {
+                            providerObject.updateVisibility(false);
+                            providerObject.rebuildInfoWindow();
+                          }
+                          print(position.latitude.toString());
+                          print(position.longitude.toString());
+                          setState(() {
+                            _eventList["event4"] = Event(
+                                'User selected location',
+                                LatLng(position.latitude, position.longitude),
+                                "",
+                                'click');
+                          });
+                        },
+                        onCameraMove: (position) {
+                          if (providerObject.event != null) {
+                            providerObject.updateInfo(
+                                context,
+                                mapController,
+                                providerObject.event.location,
+                                _infoWindowWidth,
+                                _markerOffset);
+                            providerObject.rebuildInfoWindow();
+                          }
+                        },
+                        onMapCreated: (GoogleMapController controller) {
+                          mapController = controller;
+                        },
+                        markers: _markers,
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                              this.placeId == null
+                                  ? _currentPosition.latitude
+                                  : detailsResult.geometry.location.lat,
+                              this.placeId == null
+                                  ? _currentPosition.longitude
+                                  : detailsResult.geometry.location.lng),
+                          zoom: 15,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                // buildFloatingSearchBar()
+              ],
             ),
-          ),
-          // buildFloatingSearchBar()
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerFloat,
+          );
+        }
+      },
     );
   }
 
@@ -330,16 +343,16 @@ class _MapPageRState extends State<MapPageR> {
   }
 
   Future<Position> getCurrentLocation() async {
-    EasyLoading.show(status: 'loading...');
-    return await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.best,
-            forceAndroidLocationManager: true)
-        .then((position) => _currentPosition);
-    // setState(() {
-    //   _currentPosition = geoPosition;
-    // });
+    // EasyLoading.show(status: 'loading...');
+    final geoPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+        forceAndroidLocationManager: true);
+
+    setState(() {
+      _currentPosition = geoPosition;
+    });
     // EasyLoading.dismiss();
-    // return _currentPosition;
+    return _currentPosition;
   }
 }
 
