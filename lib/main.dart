@@ -51,7 +51,6 @@ class MyApp extends StatelessWidget {
           routes: {
             LogInScreen.routeName: (ctx) => UserLoginScreen(),
             SignUpScreen.routeName: (ctx) => UserSignUpScreen(),
-            NewEventScreen.routeName: (ctx) => NewEventScreen(),
           },
           onUnknownRoute: (settings) {
             return MaterialPageRoute(

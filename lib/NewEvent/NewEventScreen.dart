@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:jbt/Models/EventForm.dart';
 import 'package:jbt/Service/FirebaseService.dart';
@@ -32,6 +34,11 @@ class NewEventScreen extends StatelessWidget {
   List<Asset> images = <Asset>[];
   String startDate;
   String endDate;
+  String address;
+  double lat;
+  double long;
+
+  NewEventScreen(this.address, this.lat, this.long);
 
   void didSelectImages(List<Asset> images) {
     this.images = images;
@@ -57,13 +64,13 @@ class NewEventScreen extends StatelessWidget {
 
     EventForm form = EventForm(
       titleController.text,
-      "address",
+      address,
       detailController.text,
       startDate,
       endDate,
       telController.text,
-      123.3,
-      123.5,
+      lat,
+      long,
       imageUrlList,
     );
 
@@ -78,7 +85,7 @@ class NewEventScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size deviceSize = MediaQuery.of(context).size;
+    locationController.text = address;
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(

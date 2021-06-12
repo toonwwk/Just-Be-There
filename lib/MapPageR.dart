@@ -14,21 +14,17 @@ import 'NewEvent/NewEventScreen.dart';
 import 'Service/FirebaseService.dart';
 
 class MapPageR extends StatefulWidget {
-  final String placeId;
-  final GooglePlace googlePlace;
+  final LatLng currentPosition;
 
-  MapPageR({Key key, this.placeId, this.googlePlace}) : super(key: key);
+  MapPageR({Key key, this.currentPosition}) : super(key: key);
 
   @override
-  _MapPageRState createState() =>
-      _MapPageRState(this.placeId, this.googlePlace);
+  _MapPageRState createState() => _MapPageRState(this.currentPosition);
 }
 
 class _MapPageRState extends State<MapPageR> {
-  Position _currentPosition;
-  String placeId;
-  GooglePlace googlePlace;
-  _MapPageRState(this.placeId, this.googlePlace);
+  LatLng currentPosition;
+  _MapPageRState(this.currentPosition);
   DetailsResult detailsResult;
   GoogleMapController mapController;
   Set<Marker> _markers = Set<Marker>();
@@ -37,9 +33,6 @@ class _MapPageRState extends State<MapPageR> {
 
   @override
   void initState() {
-    if (this.placeId != null) {
-      getDetails(this.placeId);
-    }
     super.initState();
   }
 
@@ -47,7 +40,8 @@ class _MapPageRState extends State<MapPageR> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => NewEventScreen(),
+        builder: (context) => NewEventScreen(
+            address, currentPosition.latitude, currentPosition.longitude),
       ),
     );
   }
@@ -58,10 +52,14 @@ class _MapPageRState extends State<MapPageR> {
 
   final double _infoWindowWidth = 250;
   final double _markerOffset = 170;
+  String address = "Current location";
+  var tmp;
+  Marker marker;
 
   @override
   Widget build(BuildContext context) {
     final providerObject = Provider.of<InfoWindowModel>(context, listen: false);
+    tmp = providerObject;
     fetchMakers().then((value) {
       print(_eventList.length);
       print(_eventList.elementAt(0).lat);
@@ -184,13 +182,12 @@ class _MapPageRState extends State<MapPageR> {
                     },
                     child: Positioned(
                       child: GoogleMap(
+                        myLocationEnabled: true,
                         onTap: (position) {
                           if (providerObject.showInfoWindow) {
                             providerObject.updateVisibility(false);
                             providerObject.rebuildInfoWindow();
                           }
-                          print(position.latitude.toString());
-                          print(position.longitude.toString());
                         },
                         onCameraMove: (position) {
                           if (providerObject.event != null) {
@@ -209,13 +206,7 @@ class _MapPageRState extends State<MapPageR> {
                         },
                         markers: _markers,
                         initialCameraPosition: CameraPosition(
-                          target: LatLng(
-                              this.placeId == null
-                                  ? _currentPosition.latitude
-                                  : detailsResult.geometry.location.lat,
-                              this.placeId == null
-                                  ? _currentPosition.longitude
-                                  : detailsResult.geometry.location.lng),
+                          target: currentPosition,
                           zoom: 15,
                         ),
                       ),
@@ -236,52 +227,26 @@ class _MapPageRState extends State<MapPageR> {
     );
   }
 
-  void getDetails(String placeId) async {
-    var result = await this.googlePlace.details.get(placeId);
-    if (result != null && result.result != null && mounted) {
-      setState(() {
-        detailsResult = result.result;
-      });
-    }
-    var lat = detailsResult.geometry.location.lat;
-    var lng = detailsResult.geometry.location.lng;
-    _getLocation(lat, lng);
-    _add(lat, lng);
-  }
-
-  FutureOr onGoBack(value) {
-    if (this.detailsResult == null) {
-      print("isEmpty or null");
-    } else {
-      getDetails(this.placeId);
-    }
-
-    // print("goBack after getDetails");
-  }
-
   void searchPlace(context) async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SearchPage()),
     );
-    if (result != null) {
-      print(result);
-      placeId = result[0];
-      googlePlace = result[1];
-      getDetails(placeId);
+
+    if (result.length > 0) {
+      currentPosition = LatLng(result[0], result[1]);
+      _getLocation(currentPosition);
+      if (tmp.showInfoWindow) {
+        tmp.updateVisibility(false);
+        tmp.rebuildInfoWindow();
+      }
     }
   }
 
-  void _getLocation(lat, lng) {
-    var newPosition = CameraPosition(target: LatLng(lat, lng), zoom: 16);
-
+  void _getLocation(coor) {
+    var newPosition = CameraPosition(target: coor, zoom: 16);
     CameraUpdate update = CameraUpdate.newCameraPosition(newPosition);
-
     mapController.moveCamera(update);
-  }
-
-  void _add(lat, lng) {
-    setState(() {});
   }
 
   Widget buildFloatingSearchBar() {
@@ -320,11 +285,11 @@ class _MapPageRState extends State<MapPageR> {
     );
   }
 
-  Future<Position> getCurrentLocation() async {
+  Future<LatLng> getCurrentLocation() async {
     final geoPosition = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best,
         forceAndroidLocationManager: true);
-    _currentPosition = geoPosition;
-    return _currentPosition;
+    currentPosition = LatLng(geoPosition.latitude, geoPosition.longitude);
+    return currentPosition;
   }
 }

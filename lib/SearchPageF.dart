@@ -1,25 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   // await DotEnv().load('.env');
-//   runApp(MyApp());
-// }
-//
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: HomePage(),
-//     );
-//   }
-// }
-
 class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -109,13 +90,18 @@ class _SearchPageState extends State<SearchPage> {
                       title: Text(predictions[index].description),
                       onTap: () {
                         var itemlist = [];
-                        itemlist.add(predictions[index].placeId);
-                        itemlist.add(googlePlace);
-                        debugPrint(predictions[index].placeId);
-                        Navigator.pop(
-                          context, //need to send googlePlacealso
-                          itemlist,
-                        );
+                        googlePlace.details
+                            .get(predictions[index].placeId)
+                            .then((value) {
+                          itemlist.add(value.result.geometry.location.lat);
+                          itemlist.add(value.result.geometry.location.lng);
+                          itemlist.add(value.result.name);
+                          print(itemlist[0]);
+                          Navigator.pop(
+                            context, //need to send googlePlacealso
+                            itemlist,
+                          );
+                        });
                       },
                     );
                   },

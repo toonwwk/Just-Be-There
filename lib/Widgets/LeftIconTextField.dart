@@ -101,7 +101,8 @@ class LeftIconTextField extends StatelessWidget {
           _icon = Icons.local_phone;
           _maxLines = 1;
           _keyboardType = TextInputType.phone;
-          maskFormatter = new MaskTextInputFormatter(mask: '###-###-####', filter: { "#": RegExp(r'[0-9]') });
+          maskFormatter = new MaskTextInputFormatter(
+              mask: '###-###-####', filter: {"#": RegExp(r'[0-9]')});
         }
         break;
       case TextFieldType.date:
@@ -115,7 +116,6 @@ class LeftIconTextField extends StatelessWidget {
           _icon = Icons.location_on;
           _maxLines = 1;
           _enabled = true;
-
         }
         break;
       case TextFieldType.eventTitle:
