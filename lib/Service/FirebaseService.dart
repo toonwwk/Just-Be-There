@@ -8,14 +8,13 @@ import 'package:jbt/Models/EventForm.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
 import '../helper.dart';
+import '../main.dart';
 
 class FirebaseService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String> createUser({@required email, @required password}) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await _auth
         .createUserWithEmailAndPassword(email: email, password: password)
         .then((data) {
@@ -29,8 +28,6 @@ class FirebaseService with ChangeNotifier {
 
   Future<String> signIn(
       {@required String email, @required String password}) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-
     return await _auth
         .signInWithEmailAndPassword(email: email, password: password)
         .then((data) {
@@ -87,7 +84,6 @@ class FirebaseService with ChangeNotifier {
         .then((value) {
       List<EventForm> eventList = [];
       value.docs.forEach((form) {
-        print("??");
         List<String> urlList = new List<String>.from(form["url-list"]);
         EventForm event = EventForm(
           form["event-name"],
@@ -108,5 +104,12 @@ class FirebaseService with ChangeNotifier {
       print("error");
       print(e.toString());
     });
+  }
+
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
+    prefs.setString(UserPref.email, "");
+    prefs.setString(UserPref.userId, "");
+    print("Sign out successfully");
   }
 }

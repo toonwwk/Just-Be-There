@@ -140,7 +140,6 @@ class LogInScreen extends State<UserLoginScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () => pushNewEventScreen(context),
-                  // onPressed: () => fetchData(),
                   child: Text("Dummy"),
                 ),
                 SizedBox(

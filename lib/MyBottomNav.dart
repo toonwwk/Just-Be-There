@@ -48,7 +48,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
                 icon: new Icon(Icons.settings), label: ("Setting")),
             BottomNavigationBarItem(icon: new Icon(Icons.map), label: ("Map")),
             BottomNavigationBarItem(
-                icon: new Icon(Icons.notifications), label: ("Overview")),
+                icon: new Icon(Icons.info_outline), label: ("Overview")),
           ],
         ));
   }
