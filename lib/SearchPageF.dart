@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
-import 'package:jbt/MapPageR.dart';
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +51,12 @@ class _SearchPageState extends State<SearchPage> {
               Icons.arrow_back,
               color: Colors.black,
             ),
-            onPressed: () {}),
+            onPressed: () {
+              Navigator.pop(
+                context, //need to send googlePlacealso
+                [],
+              );
+            }),
       ),
       body: SafeArea(
         child: Container(
@@ -104,15 +108,13 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                       title: Text(predictions[index].description),
                       onTap: () {
+                        var itemlist = [];
+                        itemlist.add(predictions[index].placeId);
+                        itemlist.add(googlePlace);
                         debugPrint(predictions[index].placeId);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MapPageR(
-                              placeId: predictions[index].placeId,
-                              googlePlace: googlePlace,
-                            ),
-                          ),
+                        Navigator.pop(
+                          context, //need to send googlePlacealso
+                          itemlist,
                         );
                       },
                     );

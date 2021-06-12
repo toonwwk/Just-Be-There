@@ -43,6 +43,14 @@
 	<false/>
     <key>NSCameraUsageDescription</key>
     <string>JBT wants to access your camera</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app needs access to location when open.</string>
+
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>This app needs access to location when in the background.</string>
+
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app needs access to location when open and in the background.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>JBT Travel to access your photos</string>
     <!-- Put me in the [my_project]/ios/Runner/Info.plist file -->

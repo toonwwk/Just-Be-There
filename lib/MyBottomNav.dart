@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jbt/MapPage.dart';
+import 'package:jbt/MapPageR.dart';
 import 'package:jbt/NotificationsPage.dart';
 import 'package:jbt/SettingsPage.dart';
 
@@ -25,7 +25,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     SettingsPage(),
-    MapPage(),
+    MapPageR(),
     NotificationsPage()
   ];
 
@@ -37,18 +37,21 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: _children[_currentIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: onTappedBar,
-          currentIndex: _currentIndex,
-          items: [
-            BottomNavigationBarItem(
-                icon: new Icon(Icons.settings), label: ("Setting")),
-            BottomNavigationBarItem(icon: new Icon(Icons.map), label: ("Map")),
-            BottomNavigationBarItem(
-                icon: new Icon(Icons.notifications), label: ("Notification")),
-          ],
-        ));
+    return MaterialApp(
+      home: Scaffold(
+          body: _children[_currentIndex],
+          bottomNavigationBar: BottomNavigationBar(
+            onTap: onTappedBar,
+            currentIndex: _currentIndex,
+            items: [
+              BottomNavigationBarItem(
+                  icon: new Icon(Icons.settings), label: ("Setting")),
+              BottomNavigationBarItem(
+                  icon: new Icon(Icons.map), label: ("Map")),
+              BottomNavigationBarItem(
+                  icon: new Icon(Icons.notifications), label: ("Notification")),
+            ],
+          )),
+    );
   }
 }
