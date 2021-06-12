@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jbt/MapPageR.dart';
 import 'package:jbt/Overview/OverviewScreen.dart';
 import 'package:jbt/SettingsPage.dart';
+import 'package:jbt/helper.dart';
 
 class MyBottomNav extends StatelessWidget {
   @override
@@ -40,6 +41,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     return Scaffold(
         body: _children[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: appColor.green,
           onTap: onTappedBar,
           currentIndex: _currentIndex,
           items: [

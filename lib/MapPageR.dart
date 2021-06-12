@@ -7,8 +7,10 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
 import 'package:jbt/Models/EventForm.dart';
 import 'package:jbt/SearchPageF.dart';
+import 'package:jbt/helper.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:provider/provider.dart';
+
 import 'InfoWindowModel.dart';
 import 'NewEvent/NewEventScreen.dart';
 import 'Service/FirebaseService.dart';
@@ -92,6 +94,7 @@ class _MapPageRState extends State<MapPageR> {
           EasyLoading.dismiss();
           return Scaffold(
             appBar: new AppBar(
+              backgroundColor: appColor.green,
               title: new Text("Maps"),
               actions: [
                 IconButton(
@@ -145,34 +148,110 @@ class _MapPageRState extends State<MapPageR> {
                                               height: 125,
                                               width: 250,
                                               padding: EdgeInsets.all(10),
-                                              child: Column(
-                                                children: [
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  Flexible(
-                                                    flex: 1,
-                                                    child: Text(
-                                                      providerObject
-                                                          .event.eventName,
+                                              child: (providerObject
+                                                              .event.urlList ==
+                                                          null ||
+                                                      providerObject.event
+                                                          .urlList.isEmpty)
+                                                  ? Container(
+                                                      child: Column(
+                                                        children: [
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Flexible(
+                                                            flex: 1,
+                                                            child: Text(
+                                                              providerObject
+                                                                  .event
+                                                                  .eventName,
+                                                            ),
+                                                          ),
+                                                          Flexible(
+                                                            flex: 3,
+                                                            child: Text(
+                                                              providerObject
+                                                                  .event
+                                                                  .address,
+                                                            ),
+                                                          ),
+                                                          Flexible(
+                                                            flex: 1,
+                                                            child: Text(
+                                                              providerObject
+                                                                  .event.tel
+                                                                  .toString(),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Container(
+                                                      child: Column(
+                                                        children: [
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Flexible(
+                                                                child: Image
+                                                                    .network(
+                                                                  providerObject
+                                                                      .event
+                                                                      .urlList[0],
+                                                                  width: 80.0,
+                                                                  height: 80.0,
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 10,
+                                                              ),
+                                                              Flexible(
+                                                                flex: 2,
+                                                                child: Text(
+                                                                  providerObject
+                                                                      .event
+                                                                      .eventName,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          Row(
+                                                            children: [
+                                                              Text(
+                                                                providerObject
+                                                                    .event.tel
+                                                                    .toString(),
+                                                              ),
+                                                              SizedBox(
+                                                                width: 110,
+                                                              ),
+                                                              InkWell(
+                                                                onTap: () {
+                                                                  print("Tapped at " +
+                                                                      providerObject
+                                                                          .event
+                                                                          .eventName
+                                                                          .toString());
+                                                                },
+                                                                child: Icon(
+                                                                  Icons.info,
+                                                                  color: appColor
+                                                                      .green,
+                                                                  size: 25.0,
+                                                                  semanticLabel:
+                                                                      'Text to announce in accessibility modes',
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
-                                                  ),
-                                                  Flexible(
-                                                    flex: 3,
-                                                    child: Text(
-                                                      providerObject
-                                                          .event.address,
-                                                    ),
-                                                  ),
-                                                  Flexible(
-                                                    flex: 1,
-                                                    child: Text(
-                                                      providerObject.event.tel
-                                                          .toString(),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
                                             )
                                           ],
                                         ),
@@ -217,6 +296,7 @@ class _MapPageRState extends State<MapPageR> {
               ],
             ),
             floatingActionButton: FloatingActionButton(
+              backgroundColor: appColor.green,
               child: Icon(Icons.add),
               onPressed: _didTapCreateEventButton,
             ),
