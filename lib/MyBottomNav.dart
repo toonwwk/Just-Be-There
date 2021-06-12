@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jbt/MapPage.dart';
-import 'package:jbt/NotificationsPage.dart';
+import 'package:jbt/MapPageR.dart';
 import 'package:jbt/Overview/OverviewScreen.dart';
 import 'package:jbt/SettingsPage.dart';
 
@@ -26,7 +25,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     SettingsPage(),
-    MapPage(),
+    MapPageR(),
     OverviewScreen(),
   ];
 

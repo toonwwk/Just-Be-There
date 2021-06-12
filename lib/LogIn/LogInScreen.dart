@@ -1,16 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jbt/Models/EventForm.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:jbt/MyBottomNav.dart';
 import 'package:jbt/NewEvent/NewEventScreen.dart';
 import 'package:jbt/Service/FirebaseService.dart';
 import 'package:jbt/Widgets/ErrorPopup.dart';
-import 'package:jbt/Widgets/RoundButton.dart';
 import 'package:jbt/Widgets/LeftIconTextField.dart';
-import 'package:jbt/helper.dart';
+import 'package:jbt/Widgets/RoundButton.dart';
 import 'package:jbt/Widgets/SignUpText.dart';
+import 'package:jbt/helper.dart';
 import 'package:provider/provider.dart';
-
 import '../InfoWindowModel.dart';
 
 class UserLoginScreen extends StatefulWidget {
@@ -23,12 +24,27 @@ class UserLoginScreen extends StatefulWidget {
 }
 
 class LogInScreen extends State<UserLoginScreen> {
+  Timer _timer;
+  Position _currentPosition;
   static const routeName = '/login';
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
   final FirebaseService _service = FirebaseService();
   String errorMsg;
   String error;
+
+  @override
+  void initState() {
+    super.initState();
+    // EasyLoading.addStatusCallback((status) {
+    //   print('EasyLoading Status $status');
+    //   if (status == EasyLoadingStatus.dismiss) {
+    //     _timer?.cancel();
+    //   }
+    // });
+    // EasyLoading.showSuccess('Use in initState');
+    // EasyLoading.removeCallbacks();
+  }
 
   void didTapLogInButton() async {
     await _service
@@ -76,8 +92,33 @@ class LogInScreen extends State<UserLoginScreen> {
     });
   }
 
+  _getCurrentLocation() {
+    print("GetCurrentLocation");
+    Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best,
+            forceAndroidLocationManager: true)
+        .then((Position position) {
+      setState(() {
+        print("insideSetState");
+        _currentPosition = position;
+      });
+      print("AfterGeoLocator");
+      addStringToSF();
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  void locatePosition() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+        forceAndroidLocationManager: true);
+    _currentPosition = position;
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("insideBuild");
     Size deviceSize = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
@@ -152,5 +193,17 @@ class LogInScreen extends State<UserLoginScreen> {
         ),
       ),
     );
+  }
+
+  addStringToSF() {
+    print(_currentPosition.latitude.toString());
+    print(_currentPosition.longitude.toString());
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // // String encodedLat = json.encode(_currentPosition.latitude);
+    // // String encodedLng = json.encode(_currentPosition.longitude);
+    // // prefs.setString('latValue', encodedLat);
+    // // prefs.setString('lngValue', encodedLng);
+    // prefs.setDouble('latValue', _currentPosition.latitude);
+    // prefs.setDouble('lngValue', _currentPosition.longitude);
   }
 }
