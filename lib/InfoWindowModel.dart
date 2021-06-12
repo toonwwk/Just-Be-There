@@ -1,10 +1,7 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'Models/EventForm.dart';
-import 'model/event.dart';
 
 class InfoWindowModel extends ChangeNotifier {
   bool _showInfoWindow = false;
