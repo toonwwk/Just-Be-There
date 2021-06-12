@@ -48,6 +48,7 @@ class _MapPageRState extends State<MapPageR> {
 
   Future<void> fetchMakers() async {
     _eventList = await _service.fetchEventFromFirestore();
+    print("done fetch");
   }
 
   final double _infoWindowWidth = 250;
@@ -60,9 +61,9 @@ class _MapPageRState extends State<MapPageR> {
   Widget build(BuildContext context) {
     final providerObject = Provider.of<InfoWindowModel>(context, listen: false);
     tmp = providerObject;
+    print("Start fetch");
     fetchMakers().then((value) {
-      print(_eventList.length);
-      print(_eventList.elementAt(0).lat);
+      print("In then");
       _eventList.forEach((event) {
         _markers.add(Marker(
             markerId: MarkerId(event.eventName),
