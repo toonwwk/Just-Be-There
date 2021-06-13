@@ -143,7 +143,10 @@ class NewEventScreen extends StatelessWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () => didPressSubmitButton(),
+                        onPressed: () {
+                          didPressSubmitButton();
+                          Navigator.pop(context);
+                        },
                         style: ElevatedButton.styleFrom(
                           primary: appColor.green,
                           shape: new RoundedRectangleBorder(

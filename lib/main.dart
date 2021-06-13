@@ -4,7 +4,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jbt/SignUp/SignUpScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'LogIn/LogInScreen.dart';
-import 'NewEvent/NewEventScreen.dart';
 import 'package:jbt/helper.dart';
 
 SharedPreferences prefs;

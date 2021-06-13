@@ -5,6 +5,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_place/google_place.dart';
+import 'package:jbt/EventDetail/EventDetailScreen.dart';
 import 'package:jbt/Models/EventForm.dart';
 import 'package:jbt/SearchPageF.dart';
 import 'package:jbt/helper.dart';
@@ -43,7 +44,19 @@ class _MapPageRState extends State<MapPageR> {
       context,
       MaterialPageRoute(
         builder: (context) => NewEventScreen(
-            address, currentPosition.latitude, currentPosition.longitude),
+          address,
+          currentPosition.latitude,
+          currentPosition.longitude,
+        ),
+      ),
+    );
+  }
+
+  void _didTapSeeDetailOf(EventForm event) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EventDetailScreen(event),
       ),
     );
   }
@@ -146,8 +159,19 @@ class _MapPageRState extends State<MapPageR> {
                                                           null ||
                                                       providerObject.event
                                                           .urlList.isEmpty)
-                                                  ? Container(
+                                                  ? InkWell(
+                                                      onTap: () {
+                                                        _didTapSeeDetailOf(
+                                                            providerObject
+                                                                .event);
+                                                      },
                                                       child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
                                                         children: [
                                                           SizedBox(
                                                             width: 10,
@@ -185,8 +209,19 @@ class _MapPageRState extends State<MapPageR> {
                                                         ],
                                                       ),
                                                     )
-                                                  : Container(
+                                                  : InkWell(
+                                                      onTap: () {
+                                                        _didTapSeeDetailOf(
+                                                            providerObject
+                                                                .event);
+                                                      },
                                                       child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
                                                         children: [
                                                           SizedBox(
                                                             width: 10,
@@ -232,23 +267,6 @@ class _MapPageRState extends State<MapPageR> {
                                                               ),
                                                               SizedBox(
                                                                 width: 110,
-                                                              ),
-                                                              InkWell(
-                                                                onTap: () {
-                                                                  print("Tapped at " +
-                                                                      providerObject
-                                                                          .event
-                                                                          .eventName
-                                                                          .toString());
-                                                                },
-                                                                child: Icon(
-                                                                  Icons.info,
-                                                                  color: appColor
-                                                                      .green,
-                                                                  size: 25.0,
-                                                                  semanticLabel:
-                                                                      'Text to announce in accessibility modes',
-                                                                ),
                                                               ),
                                                             ],
                                                           ),
