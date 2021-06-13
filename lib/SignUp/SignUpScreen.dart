@@ -53,6 +53,7 @@ class SignUpScreen extends State<UserSignUpScreen> {
         print("error " + errorCode);
       } else {
         print("sign up success");
+        Navigator.pop(context);
       }
     });
   }
@@ -107,12 +108,6 @@ class SignUpScreen extends State<UserSignUpScreen> {
                   appColor.green,
                   appColor.green,
                   passwordController,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                province(
-                  appColor.darkGray,
                 ),
                 SizedBox(
                   height: 15,
