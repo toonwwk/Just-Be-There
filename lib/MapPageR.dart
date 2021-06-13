@@ -128,16 +128,9 @@ class _MapPageRState extends State<MapPageR> {
                                           children: [
                                             Container(
                                               decoration: BoxDecoration(
+                                                  color: appColor.yellow,
                                                   borderRadius:
                                                       BorderRadius.circular(5),
-                                                  gradient: LinearGradient(
-                                                    colors: [
-                                                      Colors.white,
-                                                      Colors.grey,
-                                                    ],
-                                                    end: Alignment.bottomCenter,
-                                                    begin: Alignment.topCenter,
-                                                  ),
                                                   boxShadow: [
                                                     BoxShadow(
                                                         color: Colors.blueGrey,
@@ -165,6 +158,8 @@ class _MapPageRState extends State<MapPageR> {
                                                               providerObject
                                                                   .event
                                                                   .eventName,
+                                                              style: appTextStyle
+                                                                  .bold15Green,
                                                             ),
                                                           ),
                                                           Flexible(
@@ -173,6 +168,8 @@ class _MapPageRState extends State<MapPageR> {
                                                               providerObject
                                                                   .event
                                                                   .address,
+                                                              style: appTextStyle
+                                                                  .regular13Green,
                                                             ),
                                                           ),
                                                           Flexible(
@@ -181,6 +178,8 @@ class _MapPageRState extends State<MapPageR> {
                                                               providerObject
                                                                   .event.tel
                                                                   .toString(),
+                                                              style: appTextStyle
+                                                                  .regular13Green,
                                                             ),
                                                           ),
                                                         ],
@@ -213,6 +212,8 @@ class _MapPageRState extends State<MapPageR> {
                                                                   providerObject
                                                                       .event
                                                                       .eventName,
+                                                                  style: appTextStyle
+                                                                      .bold15Green,
                                                                 ),
                                                               ),
                                                             ],
@@ -226,6 +227,8 @@ class _MapPageRState extends State<MapPageR> {
                                                                 providerObject
                                                                     .event.tel
                                                                     .toString(),
+                                                                style: appTextStyle
+                                                                    .regular13Green,
                                                               ),
                                                               SizedBox(
                                                                 width: 110,
@@ -316,6 +319,7 @@ class _MapPageRState extends State<MapPageR> {
 
     if (result.length > 0) {
       currentPosition = LatLng(result[0], result[1]);
+      address = result[2];
       _getLocation(currentPosition);
       if (tmp.showInfoWindow) {
         tmp.updateVisibility(false);

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:jbt/Models/EventForm.dart';
 import 'package:jbt/Service/FirebaseService.dart';

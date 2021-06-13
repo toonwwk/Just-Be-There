@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_place/google_place.dart';
+import 'package:jbt/helper.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   GooglePlace googlePlace;
   List<AutocompletePrediction> predictions = [];
+  Color color = Colors.white;
 
   @override
   void initState() {
@@ -21,23 +23,15 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: appColor.lightGray,
+        ),
+        centerTitle: true,
+        backgroundColor: appColor.green,
         title: Text(
           "Search Location",
-          style: TextStyle(
-              fontSize: 15.0, color: Colors.black, fontWeight: FontWeight.bold),
+          style: appTextStyle.bold18Gray,
         ),
-        backgroundColor: Colors.white,
-        leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: Colors.black,
-            ),
-            onPressed: () {
-              Navigator.pop(
-                context, //need to send googlePlacealso
-                [],
-              );
-            }),
       ),
       body: SafeArea(
         child: Container(
@@ -46,17 +40,19 @@ class _SearchPageState extends State<SearchPage> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               TextField(
+                style: appTextStyle.semiBold15Green,
                 decoration: InputDecoration(
                   labelText: "Search",
+                  labelStyle: TextStyle(color: appColor.green),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.blue,
+                      color: appColor.green,
                       width: 2.0,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                      color: Colors.black54,
+                      color: appColor.darkGray,
                       width: 2.0,
                     ),
                   ),
@@ -86,8 +82,12 @@ class _SearchPageState extends State<SearchPage> {
                           Icons.pin_drop,
                           color: Colors.white,
                         ),
+                        backgroundColor: appColor.green,
                       ),
-                      title: Text(predictions[index].description),
+                      title: Text(
+                        predictions[index].description,
+                        style: appTextStyle.regular13Green,
+                      ),
                       onTap: () {
                         var itemlist = [];
                         googlePlace.details
@@ -96,7 +96,6 @@ class _SearchPageState extends State<SearchPage> {
                           itemlist.add(value.result.geometry.location.lat);
                           itemlist.add(value.result.geometry.location.lng);
                           itemlist.add(value.result.name);
-                          print(itemlist[0]);
                           Navigator.pop(
                             context, //need to send googlePlacealso
                             itemlist,
