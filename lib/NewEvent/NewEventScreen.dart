@@ -57,6 +57,7 @@ class NewEventScreen extends StatelessWidget {
           .then((value) {
         print(value);
         imageUrlList.add(value);
+        i = i + 1;
       });
     });
 
