@@ -8,6 +8,7 @@ class MyBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -23,7 +24,7 @@ class MyBottomNavigationBar extends StatefulWidget {
 }
 
 class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   final List<Widget> _children = [
     SettingsPage(),
     MapPageR(),

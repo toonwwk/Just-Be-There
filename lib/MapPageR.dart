@@ -61,11 +61,6 @@ class _MapPageRState extends State<MapPageR> {
     );
   }
 
-  Future<void> fetchMakers() async {
-    _eventList = await _service.fetchEventFromFirestore();
-    print("done fetch");
-  }
-
   final double _infoWindowWidth = 250;
   final double _markerOffset = 170;
   String address = "Current location";
@@ -76,29 +71,9 @@ class _MapPageRState extends State<MapPageR> {
   Widget build(BuildContext context) {
     final providerObject = Provider.of<InfoWindowModel>(context, listen: false);
     tmp = providerObject;
-    print("Start fetch");
-    fetchMakers().then((value) {
-      print("In then");
-      _eventList.forEach((event) {
-        _markers.add(Marker(
-            markerId: MarkerId(event.eventName),
-            position: LatLng(event.lat, event.long),
-            onTap: () {
-              providerObject.updateInfo(
-                  context,
-                  mapController,
-                  LatLng(event.lat, event.long),
-                  _infoWindowWidth,
-                  _markerOffset);
-              providerObject.updateEvent(event);
-              providerObject.updateVisibility(true);
-              providerObject.rebuildInfoWindow();
-            }));
-      });
-    });
 
     return FutureBuilder(
-      future: getCurrentLocation(),
+      future: getCurrentLocationAndEventList(),
       builder: (context, snapshot) {
         if (snapshot.data == null) {
           EasyLoading.show(status: 'loading...');
@@ -388,11 +363,32 @@ class _MapPageRState extends State<MapPageR> {
     );
   }
 
-  Future<LatLng> getCurrentLocation() async {
+  Future<LatLng> getCurrentLocationAndEventList() async {
+    _eventList =
+        await _service.fetchEventFromFirestore(); //Wait for list of markers
+    createEventList();
     final geoPosition = await Geolocator.getCurrentPosition(
+        //Wait for user's current location
         desiredAccuracy: LocationAccuracy.best,
         forceAndroidLocationManager: true);
     currentPosition = LatLng(geoPosition.latitude, geoPosition.longitude);
     return currentPosition;
+  }
+
+  void createEventList() {
+    final providerObject = Provider.of<InfoWindowModel>(context, listen: false);
+    print("Start fetch");
+    _eventList.forEach((event) {
+      _markers.add(Marker(
+          markerId: MarkerId(event.eventName),
+          position: LatLng(event.lat, event.long),
+          onTap: () {
+            providerObject.updateInfo(context, mapController,
+                LatLng(event.lat, event.long), _infoWindowWidth, _markerOffset);
+            providerObject.updateEvent(event);
+            providerObject.updateVisibility(true);
+            providerObject.rebuildInfoWindow();
+          }));
+    });
   }
 }
