@@ -5,7 +5,6 @@ import 'package:jbt/Widgets/ErrorPopup.dart';
 import 'package:jbt/Widgets/LeftIconTextField.dart';
 import 'package:jbt/Widgets/RoundButton.dart';
 import 'package:jbt/helper.dart';
-import 'package:jbt/Widgets/province.dart';
 
 class UserSignUpScreen extends StatefulWidget {
   final bool needPop;

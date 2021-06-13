@@ -130,7 +130,6 @@ class EventDetailScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(15.0),
                 child: Column(children: [
                   _display(_event.eventName, Icons.title),
-                  _display(_event.address, Icons.location_on),
                   _display(_event.description, Icons.info_outline_rounded),
                   _display(date, Icons.date_range),
                   _display(_event.tel, Icons.local_phone),
