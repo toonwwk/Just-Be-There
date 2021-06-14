@@ -2,9 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jbt/SignUp/SignUpScreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'LogIn/LogInScreen.dart';
 import 'package:jbt/helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'LogIn/LogInScreen.dart';
 
 SharedPreferences prefs;
 void main() async {
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
       future: Firebase.initializeApp(),
       builder: (context, snapshot) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           builder: EasyLoading.init(),
           theme: new ThemeData(
             primaryColor: appColor.green,
