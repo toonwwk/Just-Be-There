@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jbt/LogIn/LogInScreen.dart';
-import 'Service/FirebaseService.dart';
+import 'Service/ServiceManager.dart';
 import 'helper.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -10,7 +10,7 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   static const routeName = '/setting';
-  FirebaseService _service = FirebaseService();
+  ServiceManager _service = ServiceManager();
 
   void didTapSignOutButton() {
     _service.signOut();

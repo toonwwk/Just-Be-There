@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:jbt/Service/FirebaseService.dart';
+import 'package:jbt/Service/ServiceManager.dart';
 import 'package:jbt/Widgets/ErrorPopup.dart';
 import 'package:jbt/Widgets/LeftIconTextField.dart';
 import 'package:jbt/Widgets/RoundButton.dart';
@@ -19,7 +19,7 @@ class SignUpScreen extends State<UserSignUpScreen> {
   static const routeName = '/signup';
   final TextEditingController emailController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
-  final FirebaseService _service = FirebaseService();
+  final ServiceManager _service = ServiceManager();
   String errorMsg;
   String error;
 

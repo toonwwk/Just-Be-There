@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 import 'InfoWindowModel.dart';
 import 'NewEvent/NewEventScreen.dart';
-import 'Service/FirebaseService.dart';
+import 'Service/ServiceManager.dart';
 
 class MapPageR extends StatefulWidget {
   final LatLng currentPosition;
@@ -30,7 +30,7 @@ class _MapPageRState extends State<MapPageR> {
   DetailsResult detailsResult;
   GoogleMapController mapController;
   Set<Marker> _markers = Set<Marker>();
-  final FirebaseService _service = FirebaseService();
+  final ServiceManager _service = ServiceManager();
   List<EventForm> _eventList = [];
 
   @override
@@ -61,9 +61,7 @@ class _MapPageRState extends State<MapPageR> {
   }
 
   String getAddressOfEvent(EventForm event) {
-    return event.address == "Current location"
-        ? (event.lat.toString() + ", " + event.long.toString())
-        : event.address;
+    return event.address == "Current location" ? null : event.address;
   }
 
   String getEventDate(EventForm event) {
@@ -140,149 +138,154 @@ class _MapPageRState extends State<MapPageR> {
                                               height: 150,
                                               width: 300,
                                               padding: EdgeInsets.all(10),
-                                              child:
-                                                  (providerObject.event
-                                                                  .urlList ==
-                                                              null ||
-                                                          providerObject.event
-                                                              .urlList.isEmpty)
-                                                      ? InkWell(
-                                                          onTap: () {
-                                                            _didTapSeeDetailOf(
+                                              child: (providerObject
+                                                              .event.urlList ==
+                                                          null ||
+                                                      providerObject.event
+                                                          .urlList.isEmpty)
+                                                  ? InkWell(
+                                                      onTap: () {
+                                                        _didTapSeeDetailOf(
+                                                            providerObject
+                                                                .event);
+                                                      },
+                                                      child: ConstrainedBox(
+                                                        constraints:
+                                                            BoxConstraints(
+                                                          maxHeight: 150,
+                                                          maxWidth: 300,
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            SizedBox(
+                                                              width: 10,
+                                                            ),
+                                                            Text(
+                                                              providerObject
+                                                                  .event
+                                                                  .eventName,
+                                                              style: appTextStyle
+                                                                  .bold15Green,
+                                                            ),
+                                                            Text(
+                                                              getAddressOfEvent(
                                                                 providerObject
-                                                                    .event);
-                                                          },
-                                                          child: ConstrainedBox(
-                                                            constraints:
-                                                                BoxConstraints(
-                                                              maxHeight: 150,
-                                                              maxWidth: 300,
+                                                                    .event,
+                                                              ),
+                                                              style: appTextStyle
+                                                                  .regular13Green,
                                                             ),
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .center,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .center,
-                                                              children: [
-                                                                SizedBox(
-                                                                  width: 10,
-                                                                ),
-                                                                Text(
-                                                                  providerObject
-                                                                      .event
-                                                                      .eventName,
-                                                                  style: appTextStyle
-                                                                      .bold15Green,
-                                                                ),
-                                                                Text(
-                                                                  getAddressOfEvent(
-                                                                    providerObject
-                                                                        .event,
-                                                                  ),
-                                                                  style: appTextStyle
-                                                                      .regular13Green,
-                                                                ),
-                                                                Text(
-                                                                  providerObject
-                                                                      .event.tel
-                                                                      .toString(),
-                                                                  style: appTextStyle
-                                                                      .regular13Green,
-                                                                ),
-                                                                Text(
-                                                                  getEventDate(
-                                                                    providerObject
-                                                                        .event,
-                                                                  ),
-                                                                  style: appTextStyle
-                                                                      .regular13Green,
-                                                                ),
-                                                              ],
+                                                            Text(
+                                                              providerObject
+                                                                  .event.tel
+                                                                  .toString(),
+                                                              style: appTextStyle
+                                                                  .regular13Green,
                                                             ),
+                                                            Text(
+                                                              getEventDate(
+                                                                providerObject
+                                                                    .event,
+                                                              ),
+                                                              style: appTextStyle
+                                                                  .regular13Green,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : InkWell(
+                                                      onTap: () {
+                                                        _didTapSeeDetailOf(
+                                                            providerObject
+                                                                .event);
+                                                      },
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          SizedBox(
+                                                            width: 10,
                                                           ),
-                                                        )
-                                                      : InkWell(
-                                                          onTap: () {
-                                                            _didTapSeeDetailOf(
-                                                                providerObject
-                                                                    .event);
-                                                          },
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
+                                                          Row(
                                                             children: [
+                                                              Image.network(
+                                                                providerObject
+                                                                    .event
+                                                                    .urlList[0],
+                                                                width: 100.0,
+                                                                height: 100.0,
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
                                                               SizedBox(
                                                                 width: 10,
                                                               ),
-                                                              Row(
-                                                                children: [
-                                                                  Image.network(
-                                                                    providerObject
-                                                                        .event
-                                                                        .urlList[0],
-                                                                    width:
-                                                                        100.0,
-                                                                    height:
-                                                                        100.0,
-                                                                    fit: BoxFit
-                                                                        .fill,
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 10,
-                                                                  ),
-                                                                  ConstrainedBox(
-                                                                    constraints:
-                                                                        BoxConstraints(
-                                                                      maxHeight:
-                                                                          130,
-                                                                      maxWidth:
-                                                                          180,
-                                                                    ),
-                                                                    child: Column(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment
-                                                                                .center,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Text(
-                                                                            providerObject.event.eventName,
-                                                                            style:
-                                                                                appTextStyle.bold15Green,
-                                                                            maxLines:
-                                                                                2,
-                                                                          ),
-                                                                          Text(
-                                                                            getAddressOfEvent(
-                                                                              providerObject.event,
+                                                              ConstrainedBox(
+                                                                constraints:
+                                                                    BoxConstraints(
+                                                                  maxHeight:
+                                                                      130,
+                                                                  maxWidth: 170,
+                                                                ),
+                                                                child: Column(
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      Text(
+                                                                        providerObject
+                                                                            .event
+                                                                            .eventName,
+                                                                        style: appTextStyle
+                                                                            .semiBold15Green,
+                                                                        maxLines:
+                                                                            2,
+                                                                      ),
+                                                                      getAddressOfEvent(
+                                                                                providerObject.event,
+                                                                              ) !=
+                                                                              null
+                                                                          ? Text(
+                                                                              getAddressOfEvent(
+                                                                                providerObject.event,
+                                                                              ),
+                                                                              style: appTextStyle.regular13Green,
+                                                                              maxLines: 2,
+                                                                            )
+                                                                          : SizedBox(
+                                                                              height: 0,
                                                                             ),
-                                                                            style:
-                                                                                appTextStyle.regular13Green,
-                                                                            maxLines:
-                                                                                2,
-                                                                          ),
-                                                                          Text(
-                                                                            getEventDate(
-                                                                              providerObject.event,
-                                                                            ),
-                                                                            style:
-                                                                                appTextStyle.regular13Green,
-                                                                            maxLines:
-                                                                                2,
-                                                                          ),
-                                                                        ]),
-                                                                  ),
-                                                                ],
+                                                                      Text(
+                                                                        getEventDate(
+                                                                          providerObject
+                                                                              .event,
+                                                                        ),
+                                                                        style: appTextStyle
+                                                                            .regular13Green,
+                                                                        maxLines:
+                                                                            2,
+                                                                      ),
+                                                                    ]),
                                                               ),
                                                             ],
                                                           ),
-                                                        ),
+                                                        ],
+                                                      ),
+                                                    ),
                                             )
                                           ],
                                         ),

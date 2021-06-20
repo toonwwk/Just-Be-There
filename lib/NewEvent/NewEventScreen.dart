@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jbt/Models/EventForm.dart';
-import 'package:jbt/Service/FirebaseService.dart';
+import 'package:jbt/Service/ServiceManager.dart';
 import 'package:jbt/Widgets/LeftIconTextField.dart';
 import 'package:jbt/Widgets/DatePickerTextField.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
@@ -15,7 +15,7 @@ class NewEventScreen extends StatelessWidget {
   final TextEditingController locationController = new TextEditingController();
   final TextEditingController dateController = new TextEditingController();
   final TextEditingController titleController = new TextEditingController();
-  final FirebaseService _service = FirebaseService();
+  final ServiceManager _service = ServiceManager();
 
   final AppBar appBar = AppBar(
     iconTheme: IconThemeData(
