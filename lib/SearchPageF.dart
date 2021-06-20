@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_place/google_place.dart';
 import 'package:jbt/helper.dart';
 
@@ -14,7 +15,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   void initState() {
-    String apiKey = "AIzaSyA7B8GU2iS0g0sLaiwgdbpo0hJ0GKBPSRQ";
+    String apiKey = dotenv.env['PLACES_API_KEY'];
     googlePlace = GooglePlace(apiKey);
     super.initState();
   }

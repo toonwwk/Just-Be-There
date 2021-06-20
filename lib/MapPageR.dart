@@ -82,8 +82,9 @@ class _MapPageRState extends State<MapPageR> {
           EasyLoading.dismiss();
           return Scaffold(
             appBar: new AppBar(
+              centerTitle: true,
               backgroundColor: appColor.green,
-              title: new Text("Maps"),
+              title: new Text("Map"),
               actions: [
                 IconButton(
                     icon: Icon(Icons.search),

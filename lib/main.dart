@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:jbt/SignUp/SignUpScreen.dart';
 import 'package:jbt/helper.dart';
@@ -11,6 +12,7 @@ SharedPreferences prefs;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp();
   runApp(MyApp());
   configLoading();

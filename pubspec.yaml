@@ -37,6 +37,7 @@ dependencies:
   flutter_easyloading: ^3.0.0
 
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -75,3 +76,4 @@ flutter:
     - assets/noteOrange.png
     - assets/Overview.png
     - assets/Search.png
+    - .env
